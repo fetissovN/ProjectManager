@@ -13,7 +13,7 @@ public class SpringConverterUserToUserDTO implements Converter<User,UserDTO> {
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
-//        userDTO.setRole(user.getRole());
+        userDTO.setRole(user.getRole().toString());
         return userDTO;
     }
 }

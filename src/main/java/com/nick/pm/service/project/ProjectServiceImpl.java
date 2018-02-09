@@ -4,6 +4,7 @@ import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.converter.SpringConverterUserDTOToUser;
 import com.nick.pm.dao.project.ProjectDAO;
 import com.nick.pm.entity.Project;
+import com.nick.pm.entity.Role;
 import com.nick.pm.entity.User;
 import com.nick.pm.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> getAllProjectsDeveloperTakePart(UserDTO userDTO) {
-        if (userDTO.getRole() == 1){
+        if (userDTO.getRole().equals(Role.DEVELOPER.toString())){
             User user = userService.getUserById(userDTO.getId());
             return user.getUserProjects();
         }else{

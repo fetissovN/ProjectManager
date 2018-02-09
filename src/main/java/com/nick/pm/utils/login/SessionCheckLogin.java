@@ -2,6 +2,7 @@ package com.nick.pm.utils.login;
 
 
 import com.nick.pm.DTO.UserDTO;
+import com.nick.pm.entity.Role;
 
 import javax.servlet.http.HttpSession;
 
@@ -38,9 +39,9 @@ public class SessionCheckLogin{
         UserDTO user = (UserDTO) session.getAttribute("auth");
         if (user==null){
             return -1;
-        }else if (user.getRole()==0){
+        }else if (user.getRole().toString().equals(Role.MANAGER)){
             return 0;
-        }else if (user.getRole()==1){
+        }else if (user.getRole().toString().equals(Role.DEVELOPER)){
             return 1;
         }else {
             return -1;

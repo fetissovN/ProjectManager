@@ -4,10 +4,12 @@ import com.nick.pm.DTO.UserLoginDTO;
 import com.nick.pm.converter.SpringConverterUserToUserDTO;
 import com.nick.pm.entity.User;
 import com.nick.pm.service.user.UserService;
+import com.nick.pm.utils.Strings;
 import com.nick.pm.utils.login.SessionCheckLogin;
 import com.nick.pm.utils.password.PassHash;
 import com.nick.pm.validation.LoginFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,12 +52,16 @@ public class LoginController extends ExceptionsController {
         }
         User userFromDB = userService.getUserByEmail(loginDTO.getEmail());
         if (userFromDB==null){
-            model.addAttribute("loginErr", "loginErr");
+            model.addAttribute("loginErr", Strings.ERROR_LOGIN_USER_NOT_EXIST);
             return "login";
         }else {
-            PassHash passHash = new PassHash();
-            String pass = passHash.stringPassToHash(loginDTO.getPassword());
-            if (userFromDB.getPassword().equals(pass)){
+
+            StandardPasswordEncoder encoder = new StandardPasswordEncoder("12345");
+            String encodedPass = encoder.encode(loginDTO.getPassword());
+
+//            PassHash passHash = new PassHash();
+//            String pass = passHash.stringPassToHash(loginDTO.getPassword());
+            if (userFromDB.getPassword().equals(encodedPass)){
                 session.removeAttribute("auth");
                 session.setAttribute("auth", new SpringConverterUserToUserDTO().convert(userFromDB));
                 return "redirect:/";

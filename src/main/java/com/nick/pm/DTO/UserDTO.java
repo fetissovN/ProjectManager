@@ -9,21 +9,11 @@ public class UserDTO {
 
     private String password;
 
-    private String passwordCheck;
-
     private String email;
 
-    private int role;
+    private String role;
 
     public UserDTO() {
-    }
-
-    public String getPasswordCheck() {
-        return passwordCheck;
-    }
-
-    public void setPasswordCheck(String passwordCheck) {
-        this.passwordCheck = passwordCheck;
     }
 
     public String getPassword() {
@@ -34,11 +24,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

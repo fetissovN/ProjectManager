@@ -10,13 +10,11 @@
 
 <body>
 <#import "/spring.ftl" as spring/>
-
+<#include "bar.ftl"/>
 <div class="loginPage-wrapper">
     <div class="row">
         <div class="large-3 column"></div>
         <div class="large-6 large-centered column">
-
-
             <div class="form-wrapper">
                 <div class="formBlock_signUp">
                     <form action="/reg/do.reg" method="post">
@@ -30,9 +28,9 @@
                         <@spring.showErrors "newUser.email","error" />
                         <p><input name="role" type="radio" value="DEVELOPER">Developer</p>
                         <p><input name="role" type="radio" value="MANAGER" checked>Manager</p>
-                        <@spring.formInput "newUser.password","placeholder='Password'" />
+                        <@spring.formPasswordInput "newUser.password","placeholder='Password'" />
                         <@spring.showErrors "newUser.password","error" />
-                        <@spring.formInput "newUser.passwordCheck","placeholder='Confirm Password'" />
+                        <@spring.formPasswordInput "newUser.passwordCheck","placeholder='Confirm Password'" />
                         <@spring.showErrors "newUser.passwordCheck","error" />
                         <input type="submit" value="SignUp">
                             <div class="warning-wrapper">
