@@ -10,7 +10,7 @@ public class SessionCheckLogin{
 
     public static boolean checkLoggedInEither(HttpSession session){
         int role = checkLoggedInAs(session);
-        if (role>=0 || role<=1){
+        if (role>=0 && role<=1){
             return true;
         }else {
             return false;

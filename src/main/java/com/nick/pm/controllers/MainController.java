@@ -21,7 +21,7 @@ public class MainController extends ExceptionsController{
     @RequestMapping(value = "/")
     public String homePage(HttpSession session, Model model ){
         if (session.getAttribute("auth")==null){
-            return "redirect:/login";
+            return "redirect:/log/";
         }else {
             UserDTO userDTO = (UserDTO) session.getAttribute("auth");
             if (SessionCheckLogin.checkLoggedInManager(session)){
