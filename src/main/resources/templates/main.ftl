@@ -23,13 +23,13 @@
                         <input type="text" name="description">
                     </label>
                 </form>
-                <input id="form-cr-pr-submit" type="submit" value="Save">
+                <input id="form-cr-pr-submit" type="submit" class="button" value="Save">
                 <button class="button" id="close-pr">Close</button>
             </div>
         </div>
         <div class="large-9 column">
-            <div class="project-container"></div>
-            <div class="task-container"></div>
+            <div class="project-container" style="display: none"></div>
+            <div class="task-container" style="display: none"></div>
         </div>
 
 

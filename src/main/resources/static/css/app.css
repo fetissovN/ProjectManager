@@ -1,3 +1,8 @@
 span.error {
     color: red;
 }
+
+p.pr-name{
+    text-align: center;
+    font-size: large;
+}

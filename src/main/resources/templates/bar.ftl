@@ -13,7 +13,10 @@
     <p align="center">Task manager</p>
     <p id="role" align="center"></p>
 </div>
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script
+        src="https://code.jquery.com/jquery-2.1.0.min.js"
+        integrity="sha256-8oQ1OnzE2X9v4gpRVRMb1DWHoPHJilbur1LP9ykQ9H0="
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
