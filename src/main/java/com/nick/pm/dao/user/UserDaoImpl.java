@@ -1,9 +1,13 @@
 package com.nick.pm.dao.user;
 
+import com.nick.pm.entity.Project;
 import com.nick.pm.entity.User;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 //import org.hibernate.query.Query;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -73,6 +77,16 @@ public class UserDaoImpl implements UserDAO {
     public void deleteUser(User user) {
         sessionFactory.getCurrentSession().delete(user);
         LOGGER.info(messageSource.getMessage("log.deleteUser", new Object[] {user}, Locale.ENGLISH));
+    }
+
+    @Override
+    public List<Project> getListProjectsCreated(User user) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Project.class)
+                .add(Restrictions.eq("userId", user));
+        criteria.addOrder(Order.desc("projectDate"));
+        List<Project> projects = criteria.list();
+        LOGGER.info("Get all projects of user {}", user);
+        return projects;
     }
 
 }

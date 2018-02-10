@@ -27,8 +27,8 @@ public class Project {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "post_date")
-    private String postDate;
+    @Column(name = "project_date")
+    private String projectDate;
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectId")

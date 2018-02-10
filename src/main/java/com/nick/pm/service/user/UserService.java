@@ -1,6 +1,7 @@
 package com.nick.pm.service.user;
 
 
+import com.nick.pm.entity.Project;
 import com.nick.pm.entity.User;
 import com.nick.pm.utils.exception.MailingException;
 
@@ -19,4 +20,6 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteUser(User user);
+
+    List<Project> getProjectsCreatedByUser(long id);
 }

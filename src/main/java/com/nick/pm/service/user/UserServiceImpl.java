@@ -1,6 +1,7 @@
 package com.nick.pm.service.user;
 
 import com.nick.pm.dao.user.UserDAO;
+import com.nick.pm.entity.Project;
 import com.nick.pm.entity.User;
 import com.nick.pm.utils.Utils;
 import com.nick.pm.utils.exception.MailingException;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -69,6 +72,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(User user) {
         userDao.deleteUser(user);
+    }
+
+    @Override
+    public List<Project> getProjectsCreatedByUser(long id) {
+        User user = getUserById(id);
+        return userDao.getListProjectsCreated(user);
     }
 
 
