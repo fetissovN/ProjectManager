@@ -1,15 +1,15 @@
 package com.nick.pm.controllers;
 
 
+import com.nick.pm.DTO.ProjectDTO;
 import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.Project;
+import com.nick.pm.entity.User;
+import com.nick.pm.service.project.ProjectService;
 import com.nick.pm.service.user.UserService;
 import com.nick.pm.utils.login.SessionCheckLogin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -20,6 +20,9 @@ public class MainRESTController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET
             ,produces = "application/json")
@@ -39,15 +42,26 @@ public class MainRESTController {
 
     @RequestMapping(value = "/getUserProjects/{id}", method = RequestMethod.GET
             ,produces = "application/json")
-    public List<Project> getUserProjects(@PathVariable Long id, HttpSession session){
-        List<Project> projectList = new ArrayList<>();
+    public List<ProjectDTO> getUserProjects(@PathVariable Long id, HttpSession session){
+        List<ProjectDTO> projectList = new ArrayList<>();
         if (session.getAttribute("auth")==null){
             projectList.add(null);
             return projectList;
         }else {
-            List<Project> projects = userService.getProjectsCreatedByUser(id);
+            List<ProjectDTO> projects = userService.getProjectsCreatedByUser(id);
             projectList.addAll(projects);
             return projectList;
+        }
+    }
+
+    @RequestMapping(value = "/saveNewProject/{id}", method = RequestMethod.POST
+            ,produces = "application/json")
+    public String saveNewProject(@ModelAttribute Project project, @PathVariable Long id, HttpSession session){
+        if (session.getAttribute("auth")==null){
+            return "authFail";
+        }else {
+            projectService.saveNewProject(project,id);
+            return "saved";
         }
     }
 }

@@ -1,17 +1,17 @@
 package com.nick.pm.service.user;
 
+import com.nick.pm.DTO.ProjectDTO;
+import com.nick.pm.converter.SpringConverterProjectToProjectDTO;
 import com.nick.pm.dao.user.UserDAO;
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.User;
 import com.nick.pm.utils.Utils;
-import com.nick.pm.utils.exception.MailingException;
 import com.nick.pm.utils.mail.Mailing;
 import com.nick.pm.utils.password.PassHash;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,10 +22,10 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDao;
 
     @Autowired
-    private Mailing mailing;
+    private Utils utils;
 
     @Autowired
-    private Utils utils;
+    private SpringConverterProjectToProjectDTO springConverterProjectToProjectDTO;
 
 
     @Override
@@ -34,15 +34,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) throws com.nick.pm.utils.mail.MailingException {
+    public long createUser(User user) throws com.nick.pm.utils.mail.MailingException {
         org.springframework.security.crypto.password.PasswordEncoder encoder
                 = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
-
-
-//        StandardPasswordEncoder encoder = new StandardPasswordEncoder("12345");
         user.setPassword(encoder.encode(user.getPassword()));
         long userCreatedId = userDao.createUser(user);
-        mailing.sendMailWithConfirmationLink(user.getEmail(),encoder.encode(user.getEmail()),userCreatedId);
+        return userCreatedId;
+
     }
 
     @Override
@@ -75,9 +73,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Project> getProjectsCreatedByUser(long id) {
+    public List<ProjectDTO> getProjectsCreatedByUser(long id) {
         User user = getUserById(id);
-        return userDao.getListProjectsCreated(user);
+        List<Project> projects = userDao.getListProjectsCreated(user);
+        List<ProjectDTO> projectDTOs = new ArrayList<>();
+        for (Project p: projects) {
+            projectDTOs.add(springConverterProjectToProjectDTO.convert(p));
+        }
+        return projectDTOs;
     }
 
 

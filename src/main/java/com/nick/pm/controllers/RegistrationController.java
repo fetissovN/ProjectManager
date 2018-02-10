@@ -9,6 +9,7 @@ import com.nick.pm.utils.mail.Mailing;
 import com.nick.pm.utils.password.PassHash;
 import com.nick.pm.validation.RegFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/reg")
 public class RegistrationController extends ExceptionsController {
+
+    @Value("${host}")
+    private String HOST;
 
     @Autowired
     private RegFormValidator validator;
@@ -44,12 +48,10 @@ public class RegistrationController extends ExceptionsController {
         User userFromDB = userService.getUserByEmail(userRegDTO.getEmail());
         if (userFromDB==null){
             try{
-//                PassHash passHash = new PassHash();
-//                String pass = passHash.stringPassToHash(userRegDTO.getPassword());
-//                userRegDTO.setPassword(pass);
                 User user = springConverterUserRegDtoToUser.convert(userRegDTO);
-                userService.createUser(user);
-
+                long userCreatedId = userService.createUser(user);
+                Mailing mailing = new Mailing(HOST);
+                mailing.sendMailWithConfirmationLink(user.getEmail(),user.getEmail(),userCreatedId);
             }catch (Exception e){
                 e.printStackTrace();
             }

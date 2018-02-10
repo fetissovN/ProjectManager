@@ -23,4 +23,6 @@ public interface ProjectService {
     void deleteProject(Project project);
 
     void updateProject(Project project, Long id);
+
+    void saveNewProject(Project project, Long userId);
 }

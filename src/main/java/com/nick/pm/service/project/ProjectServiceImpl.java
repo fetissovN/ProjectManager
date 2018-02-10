@@ -10,6 +10,7 @@ import com.nick.pm.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -66,6 +67,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void updateProject(Project project, Long id) {
         projectDAO.updateProject(project);
+    }
+
+    @Override
+    public void saveNewProject(Project project, Long userId) {
+        User user = userService.getUserById(userId);
+        if (user.getRole() == Role.MANAGER){
+            project.setId(null);
+            project.setProjectDate(new Date());
+            project.setUserId(user);
+            createProject(project);
+        }
     }
 
 }

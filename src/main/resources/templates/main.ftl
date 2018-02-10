@@ -17,19 +17,19 @@
             <div class="form-container-project" style="display: none">
                 <form class="form-cr-pr" method="post">
                     <label> Name
-                        <input type="text" name="name">
+                        <input type="text" name="title">
                     </label>
                     <label> Description
                         <input type="text" name="description">
                     </label>
-                    <input type="submit" value="Save">
                 </form>
-
-                <button class="button" id="close-pr-id">Close</button>
+                <input id="form-cr-pr-submit" type="submit" value="Save">
+                <button class="button" id="close-pr">Close</button>
             </div>
         </div>
         <div class="large-9 column">
-
+            <div class="project-container"></div>
+            <div class="task-container"></div>
         </div>
 
 

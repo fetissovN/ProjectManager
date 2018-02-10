@@ -32,9 +32,9 @@ public class ProjectDAOImpl implements ProjectDAO {
     public SessionFactory sessionFactory;
 
     @Override
-    public void createProject(Project post) {
-        sessionFactory.getCurrentSession().save(post);
-        LOGGER.info(messageSource.getMessage("log.new.project", new Object[] {post}, Locale.ENGLISH));
+    public void createProject(Project project) {
+        sessionFactory.getCurrentSession().save(project);
+        LOGGER.info("Project created {}", project);
 
     }
 

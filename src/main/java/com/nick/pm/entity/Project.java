@@ -1,6 +1,7 @@
 package com.nick.pm.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User userId;
 
@@ -28,7 +29,7 @@ public class Project {
     private String description;
 
     @Column(name = "project_date")
-    private String projectDate;
+    private Date projectDate;
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectId")
@@ -53,7 +54,15 @@ public class Project {
         this.userId = userId;
     }
 
-//    public List<User> getDevelopers() {
+    public Date getProjectDate() {
+        return projectDate;
+    }
+
+    public void setProjectDate(Date projectDate) {
+        this.projectDate = projectDate;
+    }
+
+    //    public List<User> getDevelopers() {
 //        return developers;
 //    }
 //
@@ -83,5 +92,16 @@ public class Project {
 
     public void setProjectTasks(List<Task> projectTasks) {
         this.projectTasks = projectTasks;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", userId=" + userId.getId() +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", projectDate=" + projectDate +
+                '}';
     }
 }

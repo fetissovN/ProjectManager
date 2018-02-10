@@ -1,9 +1,9 @@
 package com.nick.pm.service.user;
 
 
+import com.nick.pm.DTO.ProjectDTO;
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.User;
-import com.nick.pm.utils.exception.MailingException;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface UserService {
 
     void persistUser(User user);
 
-    void createUser(User user) throws com.nick.pm.utils.mail.MailingException;
+    long createUser(User user) throws com.nick.pm.utils.mail.MailingException;
 
     User getUserByEmail(String email);
 
@@ -21,5 +21,6 @@ public interface UserService {
 
     void deleteUser(User user);
 
-    List<Project> getProjectsCreatedByUser(long id);
+    List<ProjectDTO> getProjectsCreatedByUser(long id);
+
 }
