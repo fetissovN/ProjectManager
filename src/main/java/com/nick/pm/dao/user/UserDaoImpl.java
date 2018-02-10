@@ -32,7 +32,6 @@ public class UserDaoImpl implements UserDAO {
     public Long createUser(User user) {
         Long userCreatedId = (Long) sessionFactory.getCurrentSession().save(user);
         LOGGER.info("New user saved {}", user);
-//        LOGGER.info(messageSource.getMessage("log.new.user", new Object[] {user}, Locale.ENGLISH));
         return userCreatedId;
     }
 
@@ -54,13 +53,11 @@ public class UserDaoImpl implements UserDAO {
         }
         User user = (User) userEntities.get(0);
         LOGGER.info("Get user by email {}", email);
-//        LOGGER.info(messageSource.getMessage("log.get.user.email", new Object[] {email}, Locale.ENGLISH));
         return user;
     }
 
     @Override
     public void updateUser(User user) {
-
         sessionFactory.getCurrentSession().update(user);
         LOGGER.info(messageSource.getMessage("log.update.user", new Object[] {user}, Locale.ENGLISH));
     }
@@ -68,7 +65,7 @@ public class UserDaoImpl implements UserDAO {
     @Override
     public User getUserById(Long id) {
         User user = sessionFactory.getCurrentSession().get(User.class, id);
-        LOGGER.info(messageSource.getMessage("log.get.userById", new Object[] {id}, Locale.ENGLISH));
+        LOGGER.info("Get user by id {}", id);
         return user;
     }
 

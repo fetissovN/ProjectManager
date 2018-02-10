@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,7 @@ import java.util.Locale;
 @Transactional
 public class ProjectDAOImpl implements ProjectDAO {
 
-    private final Logger LOGGER = Logger.getLogger(getClass());
+    private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MessageSource messageSource;
@@ -49,10 +50,10 @@ public class ProjectDAOImpl implements ProjectDAO {
     @Override
     public List<Project> getAllProjectsOfManager(User user) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Project.class)
-                .add(Restrictions.eq("user_id", user));
+                .add(Restrictions.eq("userId", user));
         criteria.addOrder(Order.desc("postDate"));
         List result = criteria.list();
-        LOGGER.info(messageSource.getMessage("log.get.projectsManager", new Object[] {result}, Locale.ENGLISH));
+        LOGGER.info("Get manager {} projects ", user);
         return result;
     }
 

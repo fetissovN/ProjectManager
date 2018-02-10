@@ -32,7 +32,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) throws com.nick.pm.utils.mail.MailingException {
-        StandardPasswordEncoder encoder = new StandardPasswordEncoder("12345");
+        org.springframework.security.crypto.password.PasswordEncoder encoder
+                = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+
+
+//        StandardPasswordEncoder encoder = new StandardPasswordEncoder("12345");
         user.setPassword(encoder.encode(user.getPassword()));
         long userCreatedId = userDao.createUser(user);
         mailing.sendMailWithConfirmationLink(user.getEmail(),encoder.encode(user.getEmail()),userCreatedId);

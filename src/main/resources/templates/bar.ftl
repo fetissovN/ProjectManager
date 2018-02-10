@@ -11,6 +11,7 @@
 <body>
 <div class="bar">
     <p align="center">Task manager</p>
+    <p id="role" align="center"></p>
 </div>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </body>

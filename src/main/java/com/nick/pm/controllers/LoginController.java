@@ -56,12 +56,20 @@ public class LoginController extends ExceptionsController {
             return "login";
         }else {
 
-            StandardPasswordEncoder encoder = new StandardPasswordEncoder("12345");
-            String encodedPass = encoder.encode(loginDTO.getPassword());
+            org.springframework.security.crypto.password.PasswordEncoder encoder
+                    = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+            String loginPass = encoder.encode(loginDTO.getPassword());
+
+            Boolean matches = encoder.matches(loginDTO.getPassword(), userFromDB.getPassword());
+
+//            StandardPasswordEncoder encoder = new StandardPasswordEncoder("12345");
+//            String encodedPass = encoder.encode(loginDTO.getPassword());
+//            String encodedPass2 = encoder.encode("1234");
+//            System.out.println(encodedPass2);
 
 //            PassHash passHash = new PassHash();
 //            String pass = passHash.stringPassToHash(loginDTO.getPassword());
-            if (userFromDB.getPassword().equals(encodedPass)){
+            if (matches){
                 session.removeAttribute("auth");
                 session.setAttribute("auth", new SpringConverterUserToUserDTO().convert(userFromDB));
                 return "redirect:/";

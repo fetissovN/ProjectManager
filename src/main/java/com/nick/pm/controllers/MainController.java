@@ -23,15 +23,6 @@ public class MainController extends ExceptionsController{
         if (session.getAttribute("auth")==null){
             return "redirect:/log/";
         }else {
-            UserDTO userDTO = (UserDTO) session.getAttribute("auth");
-            if (SessionCheckLogin.checkLoggedInManager(session)){
-                List<Project> projectsOfManager = projectService.getAllProjectsCreatedByManager(userDTO);
-                model.addAttribute("list", projectsOfManager);
-            }
-            if (SessionCheckLogin.checkLoggedInDeveloper(session)){
-                List<Project> projectsOfDeveloperTakePart = projectService.getAllProjectsDeveloperTakePart(userDTO);
-                model.addAttribute("list", projectsOfDeveloperTakePart);
-            }
             return "main";
         }
     }

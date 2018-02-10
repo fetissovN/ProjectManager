@@ -39,9 +39,9 @@ public class SessionCheckLogin{
         UserDTO user = (UserDTO) session.getAttribute("auth");
         if (user==null){
             return -1;
-        }else if (user.getRole().toString().equals(Role.MANAGER)){
+        }else if (user.getRole().equals(Role.MANAGER.toString())){
             return 0;
-        }else if (user.getRole().toString().equals(Role.DEVELOPER)){
+        }else if (user.getRole().equals(Role.DEVELOPER.toString())){
             return 1;
         }else {
             return -1;
