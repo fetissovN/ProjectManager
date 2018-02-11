@@ -8,12 +8,14 @@
 
 <body>
 <#include "bar.ftl"/>
-    <#--<#if error>-->
-        <#--<div class="danger">${error}</div>-->
-    <#--</#if>-->
-    <div class="row">
+    <#if error??>
+        <div class="danger">${error}</div>
+    </#if>
+
+<div class="row">
         <div class="large-3 column">
-            <button class="button" id="create-pr">Create new project</button>
+            <button class="button" id="create-pr" style="display: none">Create new project</button>
+            <button class="button" id="create-tk" style="display: none">Create new task</button>
             <div class="form-container-project" style="display: none">
                 <form class="form-cr-pr" method="post">
                     <label> Name
@@ -26,8 +28,22 @@
                 <input id="form-cr-pr-submit" type="submit" class="button" value="Save">
                 <button class="button" id="close-pr">Close</button>
             </div>
+            <div class="form-container-task" style="display: none">
+                <form class="form-cr-tk" method="post">
+                    <label> Name
+                        <input type="text" name="name">
+                    </label>
+                    <label> Description
+                        <input type="text" name="description">
+                    </label>
+                </form>
+                <input id="form-cr-tk-submit" type="submit" class="button" value="Save">
+                <button class="button" id="close-tk">Close</button>
+            </div>
         </div>
         <div class="large-9 column">
+            <button class="button" id="showProjects" style="alignment: center">Show projects</button>
+
             <div class="project-container" style="display: none"></div>
             <div class="task-container" style="display: none"></div>
         </div>

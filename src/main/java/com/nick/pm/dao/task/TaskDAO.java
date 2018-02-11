@@ -18,4 +18,5 @@ public interface TaskDAO {
 
     void deleteTask(Task task);
 
+//    List<Task> getTasksOfProject(Project project);
 }

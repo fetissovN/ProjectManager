@@ -2,6 +2,7 @@ package com.nick.pm.dao.project;
 
 import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.Project;
+import com.nick.pm.entity.Task;
 import com.nick.pm.entity.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -59,9 +60,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 
     @Override
     public Project getProjectById(Long id) {
-        Project post = sessionFactory.getCurrentSession().get(Project.class, id);
-        LOGGER.info(messageSource.getMessage("log.get.project", new Object[] {id}, Locale.ENGLISH));
-        return post;
+        Project project = sessionFactory.getCurrentSession().get(Project.class, id);
+        LOGGER.info("Get project by id {} ", id);
+        return project;
     }
 
     @Override
@@ -74,5 +75,15 @@ public class ProjectDAOImpl implements ProjectDAO {
     public void deleteProject(Project post) {
         sessionFactory.getCurrentSession().delete(post);
         LOGGER.info(messageSource.getMessage("log.delete.project", new Object[] {post}, Locale.ENGLISH));
+    }
+
+    @Override
+    public List<Task> getTasksOfProject(Project project) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Task.class)
+                .add(Restrictions.eq("projectId", project));
+        criteria.addOrder(Order.desc("taskDate"));
+        List result = criteria.list();
+        LOGGER.info("Get tasks of project {} ", project);
+        return result;
     }
 }

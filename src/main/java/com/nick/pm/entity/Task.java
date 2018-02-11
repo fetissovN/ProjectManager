@@ -1,6 +1,7 @@
 package com.nick.pm.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,10 +20,10 @@ public class Task {
     private String description;
 
     @Column(name = "task_date")
-    private String taskDate;
+    private Date taskDate;
 
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -38,6 +39,14 @@ public class Task {
 //    private List<User> developers;
 
     public Task() {
+    }
+
+    public Date getTaskDate() {
+        return taskDate;
+    }
+
+    public void setTaskDate(Date taskDate) {
+        this.taskDate = taskDate;
     }
 
     public Long getId() {
@@ -64,11 +73,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

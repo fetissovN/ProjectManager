@@ -2,10 +2,13 @@ package com.nick.pm.controllers;
 
 
 import com.nick.pm.DTO.ProjectDTO;
+import com.nick.pm.DTO.TaskDTO;
 import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.Project;
+import com.nick.pm.entity.Task;
 import com.nick.pm.entity.User;
 import com.nick.pm.service.project.ProjectService;
+import com.nick.pm.service.task.TaskService;
 import com.nick.pm.service.user.UserService;
 import com.nick.pm.utils.login.SessionCheckLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class MainRESTController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private TaskService taskService;
 
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET
             ,produces = "application/json")
@@ -61,6 +67,29 @@ public class MainRESTController {
             return "authFail";
         }else {
             projectService.saveNewProject(project,id);
+            return "saved";
+        }
+    }
+
+    @RequestMapping(value = "/getProjectTasks/{id}", method = RequestMethod.GET
+            ,produces = "application/json")
+    public List<TaskDTO> getProjectTasks(@PathVariable Long id, HttpSession session){
+        if (session.getAttribute("auth")==null){
+            return null;
+        }else {
+            List<TaskDTO> taskList = projectService.getTasksOfProject(id);
+            return taskList;
+        }
+    }
+
+
+    @RequestMapping(value = "/saveNewTask/{projectId}/user/{userId}", method = RequestMethod.POST
+            ,produces = "application/json")
+    public String saveNewTask(@ModelAttribute TaskDTO taskDTO, @PathVariable Long projectId, @PathVariable Long userId, HttpSession session){
+        if (session.getAttribute("auth")==null){
+            return "authFail";
+        }else {
+            taskService.saveNewTask(taskDTO);
             return "saved";
         }
     }

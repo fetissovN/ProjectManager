@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ import java.util.Locale;
 @Transactional
 public class TaskDAOImpl implements TaskDAO{
 
-    private final Logger LOGGER = Logger.getLogger(getClass());
+    private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MessageSource messageSource;
@@ -31,8 +32,7 @@ public class TaskDAOImpl implements TaskDAO{
     @Override
     public void createTask(Task task) {
         sessionFactory.getCurrentSession().save(task);
-        LOGGER.info(messageSource.getMessage("log.new.post", new Object[] {task}, Locale.ENGLISH));
-
+        LOGGER.info("Create new task {} ", task);
     }
 
     @Override
@@ -62,4 +62,6 @@ public class TaskDAOImpl implements TaskDAO{
         sessionFactory.getCurrentSession().delete(task);
         LOGGER.info(messageSource.getMessage("log.delete.task", new Object[] {task}, Locale.ENGLISH));
     }
+
+
 }
