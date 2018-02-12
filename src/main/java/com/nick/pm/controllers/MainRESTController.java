@@ -94,6 +94,16 @@ public class MainRESTController {
             return "saved";
         }
     }
+    @RequestMapping(value = "/getAllDevelopersOfProject/{id}", method = RequestMethod.GET
+            ,produces = "application/json")
+    public List<UserDTO> getAllDevelopersOfProject(@PathVariable Long id, HttpSession session){
+        if (session.getAttribute("auth")==null){
+            return null;
+        }else {
+            return userService.getAllDevelopersOfProject(id);
+        }
+    }
+
     @RequestMapping(value = "/getAllDevelopers", method = RequestMethod.GET
             ,produces = "application/json")
     public List<UserDTO> getAllDevelopers(HttpSession session){
@@ -106,11 +116,12 @@ public class MainRESTController {
 
     @RequestMapping(value = "/addDeveloperToProject", method = RequestMethod.POST
             ,produces = "application/json")
-    public UserDTO getAllDevelopers(@RequestBody DataJsonAddUserToProject json, HttpSession session){
+    public String getAllDevelopers(@RequestBody DataJsonAddUserToProject json, HttpSession session){
         if (session.getAttribute("auth")==null){
             return null;
         }else {
-            return userService.addDeveloperToProject(json.getDeveloperId(), json.getProjectId());
+            userService.addDeveloperToProject(json.getDeveloperId(), json.getProjectId());
+            return "saved";
         }
     }
 }

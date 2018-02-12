@@ -32,7 +32,6 @@ function getUserProjectsAjax() {
         type: 'GET',
         url: '/api/main/getUserProjects/'+userId,
         success: function(data){
-            console.log(data);
             for (var i = 0; i < data.length; i++){
                 projects.push(data[i]);
             }
@@ -68,7 +67,6 @@ function saveNewTaskAjax(projectId) {
         url: '/api/main/saveNewTask/'+projectId+'/user/'+userId,
         success: function(data){
             console.log(data);
-            //todo clear view and create task list
         },
         error: function () {
             alert('failToSave');
@@ -81,8 +79,8 @@ function getProjectTasks(id) {
         type: 'GET',
         url: '/api/main/getProjectTasks/'+id,
         success: function(data){
-            console.log(data);
             showDropdownDevelopers();
+            showContainerDevelopers();
             createTaskList(data);
         },
         error: function () {
@@ -119,8 +117,22 @@ function addDeveloperToProjectAjax(devId){
         contentType: 'application/json',
         url: '/api/main/addDeveloperToProject',
         success: function(data){
-            console.log('added');
             console.log(data);
+            $('.developers-container').show();
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+}
+
+function loadAllDevelopersOfProjectAjax(){
+    $.ajax({
+        type: 'GET',
+        url: '/api/main/getAllDevelopersOfProject/'+projectIdClicked,
+        success: function(data){
+            console.log(data);
+            $('.developers-container').show();
         },
         error: function () {
             alert('fail');
@@ -205,10 +217,21 @@ function loadUserProjects() {
     }
 }
 
+function showContainerDevelopers() {
+    $('.developers-container').show();
+    if (role == "MANAGER"){
+        loadAllDevelopersOfProjectAjax();
+    }
+    // loadAllDevelopersAjax();
+}
+
+function hideContainerDevelopers() {
+    $('.developers-container').hide();
+}
+
 function showDropdownDevelopers() {
     $('.drop-container').show();
     loadAllDevelopersAjax();
-
 }
 
 function hideDropdownDevelopers() {

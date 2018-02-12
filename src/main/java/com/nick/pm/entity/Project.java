@@ -62,13 +62,13 @@ public class Project {
         this.projectDate = projectDate;
     }
 
-    //    public List<User> getDevelopers() {
-//        return developers;
-//    }
-//
-//    public void setDevelopers(List<User> developers) {
-//        this.developers = developers;
-//    }
+    public List<User> getDevelopers() {
+        return developers;
+    }
+
+    public void setDevelopers(List<User> developers) {
+        this.developers = developers;
+    }
 
     public String getTitle() {
         return title;

@@ -23,4 +23,5 @@ public interface ProjectDAO {
     void deleteProject(Project post);
 
     List<Task> getTasksOfProject(Project project);
+
 }

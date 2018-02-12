@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -38,8 +39,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void persistUser(User user) {
+    public User persistUser(User user) {
         userDao.persistUser(user);
+        return getUserById(user.getId());
     }
 
     @Override
@@ -64,16 +66,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-//        if (user.getPassword().equals("")){
-//            User userDB = userDao.getUserById(user.getId());
-//            user.setPassword(userDB.getPassword());
-        return userDao.updateUser(user);
-//        }else {
-//            String pass = PassHash.stringPassToHash(user.getPassword());
-//            user.setPassword(pass);
-//            userDao.updateUser(user);
-//        }
+    public void updateUser(User user) {
+
+        userDao.updateUser(user);
     }
 
     @Override
@@ -104,13 +99,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO addDeveloperToProject(long developerId, long projectId) {
+    public void addDeveloperToProject(long developerId, long projectId) {
         User user = userDao.getUserById(developerId);
         Project project = projectDAO.getProjectById(projectId);
         List<Project> projects = user.getProjects();
         projects.add(project);
         user.setProjects(projects);
-        User userDb = updateUser(user);
-        return springConverterUserToUserDTO.convert(userDb);
+
+        List<User> developers = project.getDevelopers();
+        developers.add(user);
+        project.setDevelopers(developers);
+        userDao.updateUserDevelopers(user,project);
+//        return springConverterUserToUserDTO.convert(userDb);
+    }
+
+    @Override
+    public List<UserDTO> getAllDevelopersOfProject(Long id) {
+        Project project = projectDAO.getProjectById(id);
+        List<User> developers = project.getDevelopers();
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for(User u: developers){
+            UserDTO userDTO = springConverterUserToUserDTO.convert(u);
+            userDTOs.add(userDTO);
+        }
+        return userDTOs;
     }
 }

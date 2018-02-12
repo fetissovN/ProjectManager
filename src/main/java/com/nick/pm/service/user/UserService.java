@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void persistUser(User user);
+    User persistUser(User user);
 
     long createUser(User user) throws com.nick.pm.utils.mail.MailingException;
 
@@ -17,7 +17,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    User updateUser(User user);
+    void updateUser(User user);
 
     void deleteUser(User user);
 
@@ -25,5 +25,7 @@ public interface UserService {
 
     List<UserDTO> getAllDevelopers();
 
-    UserDTO addDeveloperToProject(long developerId, long projectId);
+    void addDeveloperToProject(long developerId, long projectId);
+
+    List<UserDTO> getAllDevelopersOfProject(Long id);
 }

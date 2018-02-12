@@ -14,7 +14,9 @@ public interface UserDAO {
 
     User getUserByEmail(String email);
 
-    User updateUser(User user);
+    void updateUserDevelopers(User user, Project project);
+
+    void updateUser(User user);
 
     User getUserById(Long id);
 
@@ -23,4 +25,5 @@ public interface UserDAO {
     List<Project> getListProjectsCreated(User user);
 
     List<User> getListDevelopers();
+
 }

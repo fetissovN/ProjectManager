@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDAO {
     @Override
     public void persistUser(User user){
         sessionFactory.getCurrentSession().persist(user);
-        LOGGER.info(messageSource.getMessage("log.new.user", new Object[] {user}, Locale.ENGLISH));
+        LOGGER.info("User {} persisted", user);
     }
 
     @Override
@@ -62,11 +62,16 @@ public class UserDaoImpl implements UserDAO {
     }
 
     @Override
-    public User updateUser(User user) {
+    public void updateUserDevelopers(User user, Project project) {
         sessionFactory.getCurrentSession().update(user);
-        User userDB = getUserById(user.getId());
-        LOGGER.info("User {} updated", userDB);
-        return userDB;
+        sessionFactory.getCurrentSession().update(project);
+        LOGGER.info("User {} updated", user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        sessionFactory.getCurrentSession().update(user);
+        LOGGER.info("User {} updated", user);
     }
 
     @Override
@@ -100,5 +105,6 @@ public class UserDaoImpl implements UserDAO {
         LOGGER.info("Get all developers");
         return developers;
     }
+
 
 }
