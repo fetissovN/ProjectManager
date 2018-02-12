@@ -3,6 +3,7 @@ package com.nick.pm.entity;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "projects")
@@ -20,7 +21,7 @@ public class Project {
     @ManyToMany
     @JoinTable(name = "project_developers", joinColumns = {@JoinColumn(name = "project_id")}
             , inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private List<User> developers;
+    private Set<User> developers;
 
     @Column(name = "title")
     private String title;
@@ -62,11 +63,11 @@ public class Project {
         this.projectDate = projectDate;
     }
 
-    public List<User> getDevelopers() {
+    public Set<User> getDevelopers() {
         return developers;
     }
 
-    public void setDevelopers(List<User> developers) {
+    public void setDevelopers(Set<User> developers) {
         this.developers = developers;
     }
 

@@ -48,7 +48,6 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public User getUserByEmail(String email) {
-
         Query query = sessionFactory.getCurrentSession().createQuery("FROM User WHERE email = :email");
         query.setParameter("email", email);
 

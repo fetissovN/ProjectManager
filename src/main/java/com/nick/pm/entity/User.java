@@ -2,6 +2,7 @@ package com.nick.pm.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -13,7 +14,7 @@ public class User {
     private Long id;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
-    private List<Project> projects;
+    private Set<Project> projects;
 //
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
 //    private List<Task> tasks;
@@ -63,11 +64,11 @@ public class User {
         this.surname = surname;
     }
 
-    public List<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 

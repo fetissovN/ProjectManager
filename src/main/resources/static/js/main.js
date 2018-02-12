@@ -67,6 +67,8 @@ function saveNewTaskAjax(projectId) {
         url: '/api/main/saveNewTask/'+projectId+'/user/'+userId,
         success: function(data){
             console.log(data);
+            getProjectTasks(projectId);
+            //todo refresh task list
         },
         error: function () {
             alert('failToSave');
@@ -118,7 +120,9 @@ function addDeveloperToProjectAjax(devId){
         url: '/api/main/addDeveloperToProject',
         success: function(data){
             console.log(data);
-            $('.developers-container').show();
+            //todo clear prev
+            $('.developers-container').html('');
+            showContainerDevelopers();
         },
         error: function () {
             alert('fail');
@@ -132,7 +136,17 @@ function loadAllDevelopersOfProjectAjax(){
         url: '/api/main/getAllDevelopersOfProject/'+projectIdClicked,
         success: function(data){
             console.log(data);
-            $('.developers-container').show();
+            var container = $('.developers-container');
+            container.html('');
+            var h5 = $('<h5></h5>');
+            h5.html('All developers of project:');
+            container.append(h5);
+            for(var i = 0;i<data.length;i++){
+                var p = $('<p></p>');
+                p.text(data[i].username + ' ' + data[i].surname);
+                container.append(p);
+            }
+
         },
         error: function () {
             alert('fail');
@@ -151,7 +165,9 @@ function fillDropBox(data) {
 }
 
 function createTaskList(taskList) {
+    console.log('creating tasks');
     var container = $('.task-container');
+    container.html('');
     var table = $('<table></table>');
     for (var i = 0; i < taskList.length; i++){
         var tr = $('<tr></tr>');
@@ -260,7 +276,6 @@ function showAddTaskButton() {
 $('#choose-developer').on('click', function () {
     var devId = $('#dropdown option:selected').val();
     addDeveloperToProjectAjax(devId);
-    hideDropdownDevelopers();
 });
 
 $('#create-tk').on('click', function () {

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -102,11 +103,11 @@ public class UserServiceImpl implements UserService {
     public void addDeveloperToProject(long developerId, long projectId) {
         User user = userDao.getUserById(developerId);
         Project project = projectDAO.getProjectById(projectId);
-        List<Project> projects = user.getProjects();
+        Set<Project> projects = user.getProjects();
         projects.add(project);
         user.setProjects(projects);
 
-        List<User> developers = project.getDevelopers();
+        Set<User> developers = project.getDevelopers();
         developers.add(user);
         project.setDevelopers(developers);
         userDao.updateUserDevelopers(user,project);
@@ -116,7 +117,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getAllDevelopersOfProject(Long id) {
         Project project = projectDAO.getProjectById(id);
-        List<User> developers = project.getDevelopers();
+        Set<User> developers = project.getDevelopers();
         List<UserDTO> userDTOs = new ArrayList<>();
         for(User u: developers){
             UserDTO userDTO = springConverterUserToUserDTO.convert(u);
