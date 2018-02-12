@@ -172,19 +172,26 @@ function createTaskList(taskList) {
     for (var i = 0; i < taskList.length; i++){
         var tr = $('<tr></tr>');
         var task = $('<div></div>');
+        var a = $('<a></a>');
+        a.text('click this link to see details...');
+        a.attr('href','/task/'+taskList[i].id);
+        a.attr('target','_blank');
+        a.css({
+            float: "right",
+            marginRight: "0px"
+        }) ;
         task.attr('data-id', taskList[i].id);
         task.on('click',function () {
-            // $('.project-container').hide();
-            // $('.task-container').show();
             var tkId = this.getAttribute('data-id');
             console.log(tkId);
-            //todo
         });
         var name = $('<p></p>');
         name.addClass('pr-name');
         name.text("Task: "+taskList[i].name);
         task.append(name);
+        // task.append(a);
         tr.append(task);
+        tr.append(a);
         table.append(tr)
     }
     container.append(table);
