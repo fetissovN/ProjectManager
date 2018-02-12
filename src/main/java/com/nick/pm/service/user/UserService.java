@@ -2,7 +2,7 @@ package com.nick.pm.service.user;
 
 
 import com.nick.pm.DTO.ProjectDTO;
-import com.nick.pm.entity.Project;
+import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.User;
 
 import java.util.List;
@@ -17,10 +17,13 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    void updateUser(User user);
+    User updateUser(User user);
 
     void deleteUser(User user);
 
     List<ProjectDTO> getProjectsCreatedByUser(long id);
 
+    List<UserDTO> getAllDevelopers();
+
+    UserDTO addDeveloperToProject(long developerId, long projectId);
 }

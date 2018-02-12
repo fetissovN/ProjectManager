@@ -1,6 +1,7 @@
 package com.nick.pm.dao.user;
 
 import com.nick.pm.entity.Project;
+import com.nick.pm.entity.Role;
 import com.nick.pm.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -61,9 +62,11 @@ public class UserDaoImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         sessionFactory.getCurrentSession().update(user);
-        LOGGER.info(messageSource.getMessage("log.update.user", new Object[] {user}, Locale.ENGLISH));
+        User userDB = getUserById(user.getId());
+        LOGGER.info("User {} updated", userDB);
+        return userDB;
     }
 
     @Override
@@ -87,6 +90,15 @@ public class UserDaoImpl implements UserDAO {
         List<Project> projects = criteria.list();
         LOGGER.info("Get all projects of user {}", user);
         return projects;
+    }
+
+    @Override
+    public List<User> getListDevelopers() {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class)
+                .add(Restrictions.eq("role", Role.DEVELOPER));
+        List<User> developers = criteria.list();
+        LOGGER.info("Get all developers");
+        return developers;
     }
 
 }

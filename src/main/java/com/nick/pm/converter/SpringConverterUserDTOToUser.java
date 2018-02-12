@@ -16,6 +16,7 @@ public class SpringConverterUserDTOToUser<T extends User> implements Converter<U
     public User convert(UserDTO userDTO){
         User user = userService.getUserById(userDTO.getId());
         user.setUsername(userDTO.getUsername());
+        user.setSurname(userDTO.getSurname());
 //        user.setRole(userDTO.getRole());
         user.setEmail(userDTO.getEmail());
         return user;

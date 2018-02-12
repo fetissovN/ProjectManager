@@ -12,8 +12,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
-//    private List<Project> projects;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
+    private List<Project> projects;
 //
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
 //    private List<Task> tasks;
@@ -63,15 +63,15 @@ public class User {
         this.surname = surname;
     }
 
-    //    public List<Project> getProjects() {
-//        return projects;
-//    }
-//
-//    public void setProjects(List<Project> projects) {
-//        this.projects = projects;
-//    }
-//
-//    public List<Task> getTasks() {
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    //    public List<Task> getTasks() {
 //        return tasks;
 //    }
 //

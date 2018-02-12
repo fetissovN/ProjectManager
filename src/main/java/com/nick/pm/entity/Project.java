@@ -17,10 +17,10 @@ public class Project {
     @JoinColumn(name = "user_id")
     private User userId;
 
-//    @ManyToMany
-//    @JoinTable(name = "project_developers", joinColumns = {@JoinColumn(name = "project_id")}
-//            , inverseJoinColumns = {@JoinColumn(name = "user_id")})
-//    private List<User> developers;
+    @ManyToMany
+    @JoinTable(name = "project_developers", joinColumns = {@JoinColumn(name = "project_id")}
+            , inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private List<User> developers;
 
     @Column(name = "title")
     private String title;

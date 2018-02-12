@@ -7,6 +7,8 @@ public class UserDTO {
 
     private String username;
 
+    private String surname;
+
     private String password;
 
     private String email;
@@ -14,6 +16,14 @@ public class UserDTO {
     private String role;
 
     public UserDTO() {
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPassword() {

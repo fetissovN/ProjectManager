@@ -10,6 +10,7 @@ import com.nick.pm.entity.User;
 import com.nick.pm.service.project.ProjectService;
 import com.nick.pm.service.task.TaskService;
 import com.nick.pm.service.user.UserService;
+import com.nick.pm.utils.DataJsonAddUserToProject;
 import com.nick.pm.utils.login.SessionCheckLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -91,6 +92,25 @@ public class MainRESTController {
         }else {
             taskService.saveNewTask(taskDTO);
             return "saved";
+        }
+    }
+    @RequestMapping(value = "/getAllDevelopers", method = RequestMethod.GET
+            ,produces = "application/json")
+    public List<UserDTO> getAllDevelopers(HttpSession session){
+        if (session.getAttribute("auth")==null){
+            return null;
+        }else {
+            return userService.getAllDevelopers();
+        }
+    }
+
+    @RequestMapping(value = "/addDeveloperToProject", method = RequestMethod.POST
+            ,produces = "application/json")
+    public UserDTO getAllDevelopers(@RequestBody DataJsonAddUserToProject json, HttpSession session){
+        if (session.getAttribute("auth")==null){
+            return null;
+        }else {
+            return userService.addDeveloperToProject(json.getDeveloperId(), json.getProjectId());
         }
     }
 }

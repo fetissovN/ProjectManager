@@ -82,12 +82,60 @@ function getProjectTasks(id) {
         url: '/api/main/getProjectTasks/'+id,
         success: function(data){
             console.log(data);
+            showDropdownDevelopers();
             createTaskList(data);
         },
         error: function () {
             alert('failToLoad');
         }
     });
+}
+
+function loadAllDevelopersAjax(){
+    $.ajax({
+        type: 'GET',
+        url: '/api/main/getAllDevelopers',
+        success: function(data){
+            console.log(data);
+            fillDropBox(data);
+        },
+        error: function () {
+            alert('failToLoadDevelopers');
+        }
+    });
+}
+
+function addDeveloperToProjectAjax(devId){
+    var data = {
+        developerId:null,
+        projectId:null
+    };
+    data.developerId = devId;
+    data.projectId = projectIdClicked;
+    var request = JSON.stringify(data);
+    $.ajax({
+        type: 'POST',
+        data: request,
+        contentType: 'application/json',
+        url: '/api/main/addDeveloperToProject',
+        success: function(data){
+            console.log('added');
+            console.log(data);
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+}
+
+function fillDropBox(data) {
+    var container = $('#dropdown');
+    for (var i = 0; i < data.length; i++){
+        var option = $('<option></option>');
+        option.attr('value',data[i].id);
+        option.text(data[i].username + ' ' + data[i].surname);
+        container.append(option);
+    }
 }
 
 function createTaskList(taskList) {
@@ -131,7 +179,6 @@ function createProjectsList() {
             showAddTaskButton();
             getProjectTasks(prId);
             projectIdClicked = prId;
-
         });
         var name = $('<p></p>');
         name.addClass('pr-name');
@@ -142,6 +189,8 @@ function createProjectsList() {
     }
     container.append(table);
 }
+
+
 
 function loadUserProjects() {
     console.log('load');
@@ -154,6 +203,17 @@ function loadUserProjects() {
     }else {
         console.log('else');
     }
+}
+
+function showDropdownDevelopers() {
+    $('.drop-container').show();
+    loadAllDevelopersAjax();
+
+}
+
+function hideDropdownDevelopers() {
+    $('.drop-container').hide();
+
 }
 
 function hideAddProjectButton() {
@@ -173,6 +233,12 @@ function showAddProjectButton() {
 function showAddTaskButton() {
     $('#create-tk').show();
 }
+
+$('#choose-developer').on('click', function () {
+    var devId = $('#dropdown option:selected').val();
+    addDeveloperToProjectAjax(devId);
+    hideDropdownDevelopers();
+});
 
 $('#create-tk').on('click', function () {
     $('.form-container-task').show();
