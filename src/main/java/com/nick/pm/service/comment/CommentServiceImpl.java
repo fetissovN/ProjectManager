@@ -60,9 +60,9 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public void updateComment(Comment comment, Long commentId) {
+    public void updateComment(String text, Long commentId) {
         Comment commentDB = commentDAO.getCommentById(commentId);
-        commentDB.setComment(comment.getComment());
+        commentDB.setComment(text);
         commentDAO.updateComment(commentDB);
     }
 }

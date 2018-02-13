@@ -15,10 +15,9 @@ function getUserInfoAjax() {
             if('user' in data){
                 console.log(data);
                 var roleP = $('#role');
-                roleP.text(data.user.role);
+                roleP.text('You are: ' + data.user.role);
                 role = data.user.role;
                 userId = data.user.id;
-                // document.location.href = '/';
             }
         },
         error: function () {

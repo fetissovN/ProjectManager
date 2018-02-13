@@ -112,7 +112,7 @@ function loadAllCommentsAjax() {
         url: '/api/task/getAllComments/' + taskId,
         success: function(data){
             console.log(data);
-            $('.comments').html('');
+            $('.comm-tb').html('');
             createListComments(data);
         },
         error: function () {
@@ -138,14 +138,7 @@ function saveNewCommentAjax(comment) {
         contentType: 'application/json',
         url: '/api/task/saveNewComment',
         success: function(data){
-            console.log(data);
-            var table = $('.comm-tb');
-            var tr = $('<tr></tr>');
-            var p = $('<p></p>');
-            p.text(data.comment);
-            p.attr('data-id',data.id);
-            tr.append(p);
-            table.prepend(tr);
+            createSingleComment(data)
         },
         error: function () {
             alert('fail');
@@ -153,19 +146,103 @@ function saveNewCommentAjax(comment) {
     });
 }
 
+function deleteCommentAjax(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/task/deleteComment/' + id,
+        success: function(data){
+            console.log(data);
+            var commentToDelete = $('.comm-option-delete[data-id='+id+']');
+            var parent = commentToDelete.parent();
+            console.log(parent);
+            parent.remove();
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+}
+
+function updateCommentAjax(id, text) {
+    var data = {
+        commentId:null,
+        text:null
+    };
+    data.commentId = id;
+    data.text = text;
+    var request = JSON.stringify(data);
+    $.ajax({
+        type: 'POST',
+        data: request,
+        contentType: 'application/json',
+        url: '/api/task/updateComment',
+        success: function(data){
+            console.log(data);
+            if(data == 'updated'){
+                var commentToUpdate = $('.comment[data-id='+id+']');
+                commentToUpdate.text(text);
+                closeUpdateBox(id);
+            }
+
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+}
+
+function createSingleComment(data) {
+    var table = $('.comm-tb');
+
+    var tr = $('<tr></tr>');
+    var p = $('<p></p>');
+    p.text(data.comment);
+    p.attr('data-id',data.id);
+    p.addClass('comment');
+    var pDel = $('<a></a>');
+    pDel.text('delete');
+    pDel.attr('data-id', data.id);
+    pDel.addClass('comm-option-delete');
+    var pUpd = $('<a></a>');
+    pUpd.text('update');
+    pUpd.attr('data-id', data.id);
+    pUpd.addClass('comm-option-update');
+    tr.append(p);
+    tr.append(pUpd);
+    tr.append(pDel);
+    table.append(tr);
+}
+
 function createListComments(commentsList) {
-    var container = $('.comments');
-    var table = $('<table class="comm-tb"></table>');
     for (var i = 0; i < commentsList.length; i++){
-        var tr = $('<tr></tr>');
-        var p = $('<p></p>');
-        p.text(commentsList[i].comment);
-        p.attr('data-id',commentsList[i].id);
-        tr.append(p);
-        table.append(tr);
-        container.append(table);
+        createSingleComment(commentsList[i]);
     }
 }
+
+// function createListComments(commentsList) {
+//     var container = $('.comments');
+//     var table = $('<table class="comm-tb"></table>');
+//     for (var i = 0; i < commentsList.length; i++){
+//         var tr = $('<tr></tr>');
+//         var p = $('<p></p>');
+//         p.text(commentsList[i].comment);
+//         p.attr('data-id',commentsList[i].id);
+//         p.addClass('comment');
+//         var pDel = $('<a></a>');
+//         pDel.text('delete');
+//         pDel.attr('data-id', commentsList[i].id);
+//         pDel.addClass('comm-option-delete');
+//         var pUpd = $('<a></a>');
+//         pUpd.text('update');
+//         pUpd.attr('data-id', commentsList[i].id);
+//         pUpd.addClass('comm-option-update');
+//         tr.append(p);
+//         tr.append(pUpd);
+//         tr.append(pDel);
+//         table.append(tr);
+//         container.append(table);
+//     }
+// }
 
 function showContainerDevelopers() {
     $('.developers-container').show();
@@ -181,6 +258,28 @@ function fillDropBox(data) {
         option.text(data[i].username + ' ' + data[i].surname);
         container.append(option);
     }
+}
+
+function showCommentUpdateBox(id) {
+    var commentToUpdate = $('.comment[data-id='+id+']');
+    var parent = commentToUpdate.parent();
+    var div = $('<div class="update-comment-container"></div>');
+    var input = $('<input type="text" class="update-input">');
+    var button = $('<button class="update-comment-button button" type="button">ok</button>');
+    button.on('click',function () {
+        var text = input.val();
+        console.log(text);
+        updateCommentAjax(id,text);
+    });
+    input.val(commentToUpdate.text());
+    div.append(input);
+    div.append(button);
+    parent.append(div);
+
+}
+
+function closeUpdateBox(id) {
+    $('.update-comment-container').remove();
 }
 
 var taskNameContainer = $('.task-name');
@@ -214,5 +313,15 @@ $('#add-comment').on('click', function () {
     var comment = $('.input-group-field').val();
     saveNewCommentAjax(comment);
 });
+
+$(document).on('click', '.comm-option-delete', function () {
+    var id = this.getAttribute('data-id');
+    deleteCommentAjax(id);
+});
+$(document).on('click', '.comm-option-update', function () {
+    var id = this.getAttribute('data-id');
+    showCommentUpdateBox(id);
+});
+
 
 

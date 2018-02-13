@@ -7,3 +7,16 @@ p.pr-name{
     font-size: large;
 
 }
+
+.comm-option-update{
+    font-size: x-small;
+    color: #cc8b00;
+    float: right;
+}
+.comm-option-delete{
+    font-size: x-small;
+    color: #63080a;
+    margin-left: 10px;
+    margin-right: 10px;
+    float: right;
+}

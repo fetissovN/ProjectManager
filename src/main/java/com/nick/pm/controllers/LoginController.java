@@ -33,8 +33,15 @@ public class LoginController extends ExceptionsController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session, Model model){
+        session.setAttribute("auth",null);
+        return "redirect:/log/";
+
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showLoginFrom(HttpServletRequest request , HttpServletResponse response, HttpSession session, Model model){
+    public String showLoginFrom(HttpSession session, Model model){
 
         if (SessionCheckLogin.checkLoggedInEither(session)){
             return "redirect:/";

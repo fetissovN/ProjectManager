@@ -9,6 +9,7 @@ import com.nick.pm.service.comment.CommentService;
 import com.nick.pm.service.task.TaskService;
 import com.nick.pm.utils.DataJsonAddUserToProject;
 import com.nick.pm.utils.DataJsonAddUserToTask;
+import com.nick.pm.utils.DataJsonUpdateComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +79,25 @@ public class TaskRestController {
             taskService.addDeveloperToTask(json.getDeveloperId(), json.getTaskId());
             return "saved";
         }
+    }
 
+    @RequestMapping(value = "/deleteComment/{commentId}", method = RequestMethod.DELETE)
+    public String deleteComment(@PathVariable Long commentId, HttpSession session) {
+        if (session.getAttribute("auth") == null) {
+            return null;
+        } else {
+            commentService.deleteComment(commentId);
+            return "deleted";
+        }
+    }
+
+    @RequestMapping(value = "/updateComment", method = RequestMethod.POST)
+    public String updateComment(@RequestBody DataJsonUpdateComment data, HttpSession session) {
+        if (session.getAttribute("auth") == null) {
+            return null;
+        } else {
+            commentService.updateComment(data.getText(),data.getCommentId());
+            return "updated";
+        }
     }
 }

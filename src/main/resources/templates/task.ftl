@@ -35,7 +35,9 @@
                 </label>
                 <br>
                 <button class="button" id="add-comment" style="float: right">Add</button>
-                <div class="comments"></div>
+                <div class="comments">
+                    <table class="comm-tb"></table>
+                </div>
             </div>
         </div>
 

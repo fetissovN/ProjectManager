@@ -17,5 +17,5 @@ public interface CommentService {
 
     List<Comment> getAllCommentsByTaskId(Task task);
 
-    void updateComment(Comment comment, Long messageId);
+    void updateComment(String text, Long messageId);
 }
