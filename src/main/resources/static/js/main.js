@@ -80,7 +80,12 @@ function getProjectTasks(id) {
         type: 'GET',
         url: '/api/main/getProjectTasks/'+id,
         success: function(data){
-            showDropdownDevelopers();
+            if(role == "MANAGER"){
+                showDropdownDevelopers();
+            }
+            if(role == "DEVELOPER"){
+                //todo create filter task button
+            }
             showContainerDevelopers();
             createTaskList(data);
         },
@@ -151,6 +156,24 @@ function loadAllDevelopersOfProjectAjax(){
             alert('fail');
         }
     });
+}
+
+function getUserProjectsInvolvedAjax() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/main/getProjectsUserInvolved/'+userId,
+        success: function(data){
+            console.log(data);
+            for (var i = 0; i < data.length; i++){
+                projects.push(data[i]);
+            }
+            createProjectsList();
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+
 }
 
 function fillDropBox(data) {
@@ -234,6 +257,10 @@ function loadUserProjects() {
             console.log('manager');
             getUserProjectsAjax();
         }
+        if(role == "DEVELOPER"){
+            console.log('developer');
+            getUserProjectsInvolvedAjax();
+        }
     }else {
         console.log('else');
     }
@@ -306,7 +333,9 @@ $('#showProjects').on('click', function () {
     $('.task-container').hide();
     $('.project-container').show();
     hideAddTaskButton();
-    showAddProjectButton();
+    if(role == "MANAGER"){
+        showAddProjectButton();
+    }
 });
 
 $('#form-cr-pr-submit').on('click', function () {
@@ -321,6 +350,8 @@ $('#form-cr-tk-submit').on('click', function () {
 
 
 getUserInfoAjax();
-showAddProjectButton();
+if(role == 'MANAGER'){
+    showAddProjectButton();
+}
 $('.project-container').show();
 loadUserProjects();

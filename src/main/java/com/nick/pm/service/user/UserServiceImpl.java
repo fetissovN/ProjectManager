@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -122,5 +123,15 @@ public class UserServiceImpl implements UserService {
             userDTOs.add(userDTO);
         }
         return userDTOs;
+    }
+
+    @Override
+    public List<ProjectDTO> getProjectsUserInvolved(Long userId) {
+        List<ProjectDTO> projectsList = new ArrayList<>();
+        User user = userDao.getUserById(userId);
+        Set<Project> projects = user.getProjects();
+        projectsList.addAll(projects.stream()
+                .map(p -> springConverterProjectToProjectDTO.convert(p)).collect(Collectors.toList()));
+        return projectsList;
     }
 }

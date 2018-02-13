@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -31,6 +32,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private SpringConverterTaskToTaskDTO springConverterTaskToTaskDTO;
 
     @Override
     public void createProject(Project project) {
@@ -63,9 +67,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<TaskDTO> taskDTOs = new ArrayList<>();
         Project project = getProjectById(projectId);
         List<Task> taskList = projectDAO.getTasksOfProject(project);
-        for (Task t:taskList) {
-            taskDTOs.add(new SpringConverterTaskToTaskDTO().convert(t));
-        }
+        taskDTOs.addAll(taskList.stream().map(t -> springConverterTaskToTaskDTO.convert(t)).collect(Collectors.toList()));
         return taskDTOs;
     }
 

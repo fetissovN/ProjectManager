@@ -3,9 +3,11 @@ package com.nick.pm.service.user;
 
 import com.nick.pm.DTO.ProjectDTO;
 import com.nick.pm.DTO.UserDTO;
+import com.nick.pm.entity.Project;
 import com.nick.pm.entity.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -28,4 +30,6 @@ public interface UserService {
     void addDeveloperToProject(long developerId, long projectId);
 
     List<UserDTO> getAllDevelopersOfProject(Long id);
+
+    List<ProjectDTO> getProjectsUserInvolved(Long userId);
 }

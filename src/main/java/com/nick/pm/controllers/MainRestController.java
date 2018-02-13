@@ -126,4 +126,13 @@ public class MainRestController {
             return "saved";
         }
     }
+
+    @RequestMapping(value = "/getProjectsUserInvolved/{userId}", method = RequestMethod.GET)
+    public List<ProjectDTO> getProjectsUserInvolved(@PathVariable Long userId, HttpSession session){
+        if (!checkLogin.checkLoggedIn(session)){
+            return null;
+        }else {
+            return userService.getProjectsUserInvolved(userId);
+        }
+    }
 }
