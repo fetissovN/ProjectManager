@@ -33,6 +33,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("main");
         registry.addViewController("/login/").setViewName("login");
+        registry.addViewController("/error/").setViewName("exceptionPage");
     }
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {

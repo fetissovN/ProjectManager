@@ -50,8 +50,7 @@ public class UserServiceImpl implements UserService {
         org.springframework.security.crypto.password.PasswordEncoder encoder
                 = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-        long userCreatedId = userDao.createUser(user);
-        return userCreatedId;
+        return userDao.createUser(user);
 
     }
 
@@ -111,7 +110,6 @@ public class UserServiceImpl implements UserService {
         developers.add(user);
         project.setDevelopers(developers);
         userDao.updateUserDevelopers(user,project);
-//        return springConverterUserToUserDTO.convert(userDb);
     }
 
     @Override

@@ -13,12 +13,13 @@ import javax.servlet.http.HttpSession;
 public class TaskController {
 
     @RequestMapping(value = "/task/{taskId}", method = RequestMethod.GET)
-    public String homePage(@PathVariable Long taskId, HttpSession session, Model model ){
-        if (session.getAttribute("auth")==null){
+    public String homePage(@PathVariable Long taskId, HttpSession session, Model model ) {
+        if (session.getAttribute("auth") == null) {
             return "redirect:/log/";
-        }else {
-
-            return "main";
+        } else {
+            model.addAttribute("id", taskId);
+            return "task";
         }
+
     }
 }

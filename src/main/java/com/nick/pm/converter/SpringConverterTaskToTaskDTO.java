@@ -1,16 +1,12 @@
 package com.nick.pm.converter;
 
-import com.nick.pm.DTO.ProjectDTO;
 import com.nick.pm.DTO.TaskDTO;
-import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Task;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
-@Transactional
 public class SpringConverterTaskToTaskDTO implements Converter<Task, TaskDTO> {
 
     @Override

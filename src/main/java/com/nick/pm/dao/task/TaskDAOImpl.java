@@ -47,7 +47,7 @@ public class TaskDAOImpl implements TaskDAO{
     @Override
     public Task getTaskById(Long id) {
         Task post = sessionFactory.getCurrentSession().get(Task.class, id);
-        LOGGER.info(messageSource.getMessage("log.get.post", new Object[] {id}, Locale.ENGLISH));
+        LOGGER.info("Get task by id {} ", id);
         return post;
     }
 

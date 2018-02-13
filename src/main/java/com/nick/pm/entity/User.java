@@ -15,9 +15,9 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
     private Set<Project> projects;
-//
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
-//    private List<Task> tasks;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "developers")
+    private Set<Task> tasks;
 
     @Column(name = "username")
     private String username;
@@ -72,13 +72,13 @@ public class User {
         this.projects = projects;
     }
 
-    //    public List<Task> getTasks() {
-//        return tasks;
-//    }
-//
-//    public void setTasks(List<Task> tasks) {
-//        this.tasks = tasks;
-//    }
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     public String getUsername() {
         return username;

@@ -2,6 +2,7 @@ package com.nick.pm.dao.user;
 
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Role;
+import com.nick.pm.entity.Task;
 import com.nick.pm.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -105,5 +106,10 @@ public class UserDaoImpl implements UserDAO {
         return developers;
     }
 
-
+    @Override
+    public void updateUserTasks(User user, Task task) {
+        sessionFactory.getCurrentSession().update(user);
+        sessionFactory.getCurrentSession().update(task);
+        LOGGER.info("User {} updated", user);
+    }
 }

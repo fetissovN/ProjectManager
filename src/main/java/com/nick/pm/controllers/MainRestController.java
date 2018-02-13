@@ -20,7 +20,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/main")
-public class MainRESTController {
+public class MainRestController {
 
     @Autowired
     private UserService userService;
@@ -78,8 +78,7 @@ public class MainRESTController {
         if (session.getAttribute("auth")==null){
             return null;
         }else {
-            List<TaskDTO> taskList = projectService.getTasksOfProject(id);
-            return taskList;
+            return projectService.getTasksOfProject(id);
         }
     }
 
