@@ -1,16 +1,16 @@
 package com.nick.pm.service.task;
 
+import com.nick.pm.DTO.CommentDTO;
 import com.nick.pm.DTO.TaskDTO;
 import com.nick.pm.DTO.UserDTO;
+import com.nick.pm.converter.SpringConverterCommentToCommentDTO;
 import com.nick.pm.converter.SpringConverterTaskToTaskDTO;
 import com.nick.pm.converter.SpringConverterUserToUserDTO;
+import com.nick.pm.dao.comment.CommentDAO;
 import com.nick.pm.dao.project.ProjectDAO;
 import com.nick.pm.dao.task.TaskDAO;
 import com.nick.pm.dao.user.UserDAO;
-import com.nick.pm.entity.Project;
-import com.nick.pm.entity.Status;
-import com.nick.pm.entity.Task;
-import com.nick.pm.entity.User;
+import com.nick.pm.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +35,16 @@ public class TaskServiceImpl implements TaskService {
     private ProjectDAO projectDAO;
 
     @Autowired
+    private CommentDAO commentDAO;
+
+    @Autowired
     private SpringConverterUserToUserDTO springConverterUserToUserDTO;
 
     @Autowired
     private SpringConverterTaskToTaskDTO springConverterTaskToTaskDTO;
+
+    @Autowired
+    private SpringConverterCommentToCommentDTO springConverterCommentToCommentDTO;
 
     @Override
     public void createTask(Task task) {
@@ -82,7 +88,7 @@ public class TaskServiceImpl implements TaskService {
         task.setProjectId(project);
         task.setUserId(user);
         task.setTaskDate(new Date());
-        task.setStatus(Status.VERYFYING);
+        task.setStatus(Status.VERIFYING);
         createTask(task);
     }
 
@@ -99,6 +105,7 @@ public class TaskServiceImpl implements TaskService {
     public void addDeveloperToTask(long developerId, long taskId) {
         User user = userDAO.getUserById(developerId);
         Task task = taskDAO.getTaskById(taskId);
+
         Set<Task> tasks = user.getTasks();
         tasks.add(task);
         user.setTasks(tasks);
@@ -106,7 +113,15 @@ public class TaskServiceImpl implements TaskService {
         Set<User> developers = task.getDevelopers();
         developers.add(user);
         task.setDevelopers(developers);
+
         userDAO.updateUserTasks(user,task);
+    }
+
+    @Override
+    public List<CommentDTO> getAllComments(Long taskId) {
+        List<Comment> allCommentsByTaskId = commentDAO.getAllCommentsByTaskId(taskId);
+        return allCommentsByTaskId.stream()
+                .map(c -> springConverterCommentToCommentDTO.convert(c)).collect(Collectors.toList());
     }
 }
 

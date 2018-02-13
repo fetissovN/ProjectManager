@@ -1,10 +1,8 @@
 package com.nick.pm.dao.project;
 
-import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Task;
 import com.nick.pm.entity.User;
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;

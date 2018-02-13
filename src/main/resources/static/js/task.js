@@ -106,6 +106,67 @@ function addDeveloperToTaskAjax(devId){
     });
 }
 
+function loadAllCommentsAjax() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/task/getAllComments/' + taskId,
+        success: function(data){
+            console.log(data);
+            $('.comments').html('');
+            createListComments(data);
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+}
+
+function saveNewCommentAjax(comment) {
+    var data = {
+        userId:null,
+        taskId:null,
+        comment:null
+    };
+    data.userId = userId;
+    data.taskId = taskId;
+    data.comment = comment;
+    var request = JSON.stringify(data);
+    console.log(request);
+    $.ajax({
+        type: 'POST',
+        data: request,
+        contentType: 'application/json',
+        url: '/api/task/saveNewComment',
+        success: function(data){
+            console.log(data);
+            var table = $('.comm-tb');
+            var tr = $('<tr></tr>');
+            var p = $('<p></p>');
+            p.text(data.comment);
+            p.attr('data-id',data.id);
+            tr.append(p);
+            table.prepend(tr);
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+}
+
+function createListComments(commentsList) {
+    var container = $('.comments');
+    var table = $('<table class="comm-tb"></table>');
+    for (var i = 0; i < commentsList.length; i++){
+        var tr = $('<tr></tr>');
+        var p = $('<p></p>');
+        p.text(commentsList[i].comment);
+        p.attr('data-id',commentsList[i].id);
+        tr.append(p);
+        table.append(tr);
+        container.append(table);
+    }
+}
+
 function showContainerDevelopers() {
     $('.developers-container').show();
     loadAllDevelopersOfTaskAjax();
@@ -130,6 +191,8 @@ getUserInfoAjax();
 getTaskInfoAjax();
 
 loadAllDevelopersOfTaskAjax();
+
+loadAllCommentsAjax();
 if (role == "MANAGER"){
     console.log('manager');
     $('.drop-container').show();
@@ -145,6 +208,11 @@ $('#choose-developer').on('click',function () {
     addDeveloperToTaskAjax(devId);
 });
 
-$('')
+$('#add-comment').on('click', function () {
+    //todo
+    console.log('click');
+    var comment = $('.input-group-field').val();
+    saveNewCommentAjax(comment);
+});
 
 

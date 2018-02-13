@@ -14,6 +14,7 @@ public class SpringConverterTaskToTaskDTO implements Converter<Task, TaskDTO> {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(task.getId());
         taskDTO.setName(task.getName());
+        taskDTO.setStatus(task.getStatus().toString());
         taskDTO.setUserId(task.getUserId().getId());
         taskDTO.setProjectId(task.getProjectId().getId());
         taskDTO.setDescription(task.getDescription());

@@ -35,6 +35,7 @@
                 </label>
                 <br>
                 <button class="button" id="add-comment" style="float: right">Add</button>
+                <div class="comments"></div>
             </div>
         </div>
 

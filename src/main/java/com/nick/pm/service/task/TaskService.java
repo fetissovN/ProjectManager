@@ -1,5 +1,6 @@
 package com.nick.pm.service.task;
 
+import com.nick.pm.DTO.CommentDTO;
 import com.nick.pm.DTO.TaskDTO;
 import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.Task;
@@ -25,4 +26,6 @@ public interface TaskService {
     List<UserDTO> getDevelopersOfTask(Long taskId);
 
     void addDeveloperToTask(long developerId, long taskId);
+
+    List<CommentDTO> getAllComments(Long taskId);
 }
