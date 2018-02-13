@@ -6,10 +6,8 @@ import com.nick.pm.entity.User;
 import com.nick.pm.service.user.UserService;
 import com.nick.pm.utils.Strings;
 import com.nick.pm.utils.login.SessionCheckLogin;
-import com.nick.pm.utils.password.PassHash;
 import com.nick.pm.validation.LoginFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,11 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/log")
@@ -33,8 +28,11 @@ public class LoginController extends ExceptionsController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SessionCheckLogin checkLogin;
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session, Model model){
+    public String logout(HttpSession session){
         session.setAttribute("auth",null);
         return "redirect:/log/";
 
@@ -43,7 +41,7 @@ public class LoginController extends ExceptionsController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showLoginFrom(HttpSession session, Model model){
 
-        if (SessionCheckLogin.checkLoggedInEither(session)){
+        if (checkLogin.checkLoggedIn(session)){
             return "redirect:/";
         }else {
             model.addAttribute("loginForm", new UserLoginDTO());

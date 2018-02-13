@@ -1,8 +1,5 @@
 package com.nick.pm.controllers;
 
-import com.nick.pm.DTO.UserDTO;
-import com.nick.pm.entity.Project;
-import com.nick.pm.service.project.ProjectService;
 import com.nick.pm.utils.login.SessionCheckLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,17 +7,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class MainController extends ExceptionsController{
 
+
     @Autowired
-    private ProjectService projectService;
+    private SessionCheckLogin checkLogin;
 
     @RequestMapping(value = "/")
     public String homePage(HttpSession session, Model model ){
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             return "redirect:/log/";
         }else {
             return "main";

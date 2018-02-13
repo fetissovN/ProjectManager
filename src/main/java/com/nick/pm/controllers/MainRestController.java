@@ -31,11 +31,14 @@ public class MainRestController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private SessionCheckLogin checkLogin;
+
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET
             ,produces = "application/json")
     public Map<String, UserDTO> getUserInfo(HttpSession session){
         Map<String, UserDTO> map = new HashMap<>();
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             map.put("user", null);
             return map;
         }else {
@@ -51,7 +54,7 @@ public class MainRestController {
             ,produces = "application/json")
     public List<ProjectDTO> getUserProjects(@PathVariable Long id, HttpSession session){
         List<ProjectDTO> projectList = new ArrayList<>();
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             projectList.add(null);
             return projectList;
         }else {
@@ -64,7 +67,7 @@ public class MainRestController {
     @RequestMapping(value = "/saveNewProject/{id}", method = RequestMethod.POST
             ,produces = "application/json")
     public String saveNewProject(@ModelAttribute Project project, @PathVariable Long id, HttpSession session){
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             return "authFail";
         }else {
             projectService.saveNewProject(project,id);
@@ -75,7 +78,7 @@ public class MainRestController {
     @RequestMapping(value = "/getProjectTasks/{id}", method = RequestMethod.GET
             ,produces = "application/json")
     public List<TaskDTO> getProjectTasks(@PathVariable Long id, HttpSession session){
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             return null;
         }else {
             return projectService.getTasksOfProject(id);
@@ -86,7 +89,7 @@ public class MainRestController {
     @RequestMapping(value = "/saveNewTask/{projectId}/user/{userId}", method = RequestMethod.POST
             ,produces = "application/json")
     public String saveNewTask(@ModelAttribute TaskDTO taskDTO, @PathVariable Long projectId, @PathVariable Long userId, HttpSession session){
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             return "authFail";
         }else {
             taskService.saveNewTask(taskDTO);
@@ -96,7 +99,7 @@ public class MainRestController {
     @RequestMapping(value = "/getAllDevelopersOfProject/{id}", method = RequestMethod.GET
             ,produces = "application/json")
     public List<UserDTO> getAllDevelopersOfProject(@PathVariable Long id, HttpSession session){
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             return null;
         }else {
             return userService.getAllDevelopersOfProject(id);
@@ -106,7 +109,7 @@ public class MainRestController {
     @RequestMapping(value = "/getAllDevelopers", method = RequestMethod.GET
             ,produces = "application/json")
     public List<UserDTO> getAllDevelopers(HttpSession session){
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             return null;
         }else {
             return userService.getAllDevelopers();
@@ -116,7 +119,7 @@ public class MainRestController {
     @RequestMapping(value = "/addDeveloperToProject", method = RequestMethod.POST
             ,produces = "application/json")
     public String getAllDevelopers(@RequestBody DataJsonAddUserToProject json, HttpSession session){
-        if (session.getAttribute("auth")==null){
+        if (!checkLogin.checkLoggedIn(session)){
             return null;
         }else {
             userService.addDeveloperToProject(json.getDeveloperId(), json.getProjectId());

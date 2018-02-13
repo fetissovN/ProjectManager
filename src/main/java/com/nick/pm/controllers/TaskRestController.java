@@ -10,6 +10,7 @@ import com.nick.pm.service.task.TaskService;
 import com.nick.pm.utils.DataJsonAddUserToProject;
 import com.nick.pm.utils.DataJsonAddUserToTask;
 import com.nick.pm.utils.DataJsonUpdateComment;
+import com.nick.pm.utils.login.SessionCheckLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,12 @@ public class TaskRestController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private SessionCheckLogin checkLogin;
+
     @RequestMapping(value = "/getTaskInfo/{taskId}", method = RequestMethod.GET)
     public TaskDTO getTaskInfo(@PathVariable Long taskId, HttpSession session) {
-        if (session.getAttribute("auth") == null) {
+        if (!checkLogin.checkLoggedIn(session)) {
             return null;
         } else {
             return taskService.getTaskById(taskId);
@@ -40,22 +44,20 @@ public class TaskRestController {
 
     @RequestMapping(value = "/getDevelopersOfTask/{taskId}", method = RequestMethod.GET)
     public List<UserDTO> getDevelopersOfTask(@PathVariable Long taskId, HttpSession session) {
-        if (session.getAttribute("auth") == null) {
+        if (!checkLogin.checkLoggedIn(session)) {
             return null;
         } else {
-            List<UserDTO> userDTOs = taskService.getDevelopersOfTask(taskId);
-            return userDTOs;
+            return taskService.getDevelopersOfTask(taskId);
         }
 
     }
 
     @RequestMapping(value = "/getAllComments/{taskId}", method = RequestMethod.GET)
     public List<CommentDTO> getAllComments(@PathVariable Long taskId, HttpSession session) {
-        if (session.getAttribute("auth") == null) {
+        if (!checkLogin.checkLoggedIn(session)) {
             return null;
         } else {
-            List<CommentDTO> commentDTOs = taskService.getAllComments(taskId);
-            return commentDTOs;
+            return taskService.getAllComments(taskId);
         }
     }
 
@@ -63,7 +65,7 @@ public class TaskRestController {
             ,produces = "application/json"
             ,consumes = "application/json")
     public CommentDTO saveNewComment(@RequestBody  CommentDTO commentDTO, HttpSession session) {
-        if (session.getAttribute("auth") == null) {
+        if (!checkLogin.checkLoggedIn(session)) {
             return null;
         } else {
             commentDTO.setComment_date(new Date());
@@ -73,7 +75,7 @@ public class TaskRestController {
 
     @RequestMapping(value = "/addDeveloperToTask", method = RequestMethod.POST)
     public String getDevelopersOfTask(@RequestBody DataJsonAddUserToTask json, HttpSession session) {
-        if (session.getAttribute("auth") == null) {
+        if (!checkLogin.checkLoggedIn(session)) {
             return null;
         } else {
             taskService.addDeveloperToTask(json.getDeveloperId(), json.getTaskId());
@@ -83,7 +85,7 @@ public class TaskRestController {
 
     @RequestMapping(value = "/deleteComment/{commentId}", method = RequestMethod.DELETE)
     public String deleteComment(@PathVariable Long commentId, HttpSession session) {
-        if (session.getAttribute("auth") == null) {
+        if (!checkLogin.checkLoggedIn(session)) {
             return null;
         } else {
             commentService.deleteComment(commentId);
@@ -93,7 +95,7 @@ public class TaskRestController {
 
     @RequestMapping(value = "/updateComment", method = RequestMethod.POST)
     public String updateComment(@RequestBody DataJsonUpdateComment data, HttpSession session) {
-        if (session.getAttribute("auth") == null) {
+        if (!checkLogin.checkLoggedIn(session)) {
             return null;
         } else {
             commentService.updateComment(data.getText(),data.getCommentId());

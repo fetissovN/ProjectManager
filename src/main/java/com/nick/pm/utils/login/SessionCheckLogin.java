@@ -3,39 +3,29 @@ package com.nick.pm.utils.login;
 
 import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.Role;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 
+@Component
 public class SessionCheckLogin{
 
-    public static boolean checkLoggedInEither(HttpSession session){
+    public boolean checkLoggedIn(HttpSession session){
         int role = checkLoggedInAs(session);
-        if (role>=0 && role<=1){
-            return true;
-        }else {
-            return false;
-        }
+        return role >= 0 && role <= 1;
     }
 
-    public static boolean checkLoggedInDeveloper(HttpSession session){
+    public boolean checkLoggedInDeveloper(HttpSession session){
         int role = checkLoggedInAs(session);
-        if (role==1){
-            return true;
-        }else {
-            return false;
-        }
+        return role == 1;
     }
 
-    public static boolean checkLoggedInManager(HttpSession session){
+    public boolean checkLoggedInManager(HttpSession session){
         int role = checkLoggedInAs(session);
-        if (role==0){
-            return true;
-        }else {
-            return false;
-        }
+        return role == 0;
     }
 
-    public static int checkLoggedInAs(HttpSession session){
+    private int checkLoggedInAs(HttpSession session){
         UserDTO user = (UserDTO) session.getAttribute("auth");
         if (user==null){
             return -1;
@@ -47,8 +37,4 @@ public class SessionCheckLogin{
             return -1;
         }
     }
-
-
-
-
 }
