@@ -37,7 +37,7 @@ function getTaskInfoAjax() {
             userCreator = data.userId;
             $('.task-name').text('Task: ' + data.name);
             $('.description').text('Description: ' + data.description);
-            $('.task-status').text('Status: ' + data.status);
+            $('.task-status').text(data.status);
         },
         error: function () {
             alert('fail');
@@ -191,6 +191,31 @@ function updateCommentAjax(id, text) {
     });
 }
 
+function changeStatusAjax(status) {
+    var data = {
+        taskId:null,
+        status:null
+    };
+    data.taskId = taskId;
+    data.status = status;
+    var request = JSON.stringify(data);
+    console.log(request);
+    $.ajax({
+        type: 'POST',
+        data: request,
+        contentType: 'application/json',
+        url: '/api/task/updateTaskStatus',
+        success: function(data){
+            console.log(data);
+            $('.task-status').text(status);
+
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
+}
+
 function createSingleComment(data) {
     var table = $('.comm-tb');
 
@@ -219,31 +244,6 @@ function createListComments(commentsList) {
     }
 }
 
-// function createListComments(commentsList) {
-//     var container = $('.comments');
-//     var table = $('<table class="comm-tb"></table>');
-//     for (var i = 0; i < commentsList.length; i++){
-//         var tr = $('<tr></tr>');
-//         var p = $('<p></p>');
-//         p.text(commentsList[i].comment);
-//         p.attr('data-id',commentsList[i].id);
-//         p.addClass('comment');
-//         var pDel = $('<a></a>');
-//         pDel.text('delete');
-//         pDel.attr('data-id', commentsList[i].id);
-//         pDel.addClass('comm-option-delete');
-//         var pUpd = $('<a></a>');
-//         pUpd.text('update');
-//         pUpd.attr('data-id', commentsList[i].id);
-//         pUpd.addClass('comm-option-update');
-//         tr.append(p);
-//         tr.append(pUpd);
-//         tr.append(pDel);
-//         table.append(tr);
-//         container.append(table);
-//     }
-// }
-
 function showContainerDevelopers() {
     $('.developers-container').show();
     loadAllDevelopersOfTaskAjax();
@@ -266,14 +266,19 @@ function showCommentUpdateBox(id) {
     var div = $('<div class="update-comment-container"></div>');
     var input = $('<input type="text" class="update-input">');
     var button = $('<button class="update-comment-button button" type="button">ok</button>');
+    var buttonClose = $('<button class="update-comment-button-close button" type="button">forbid</button>');
     button.on('click',function () {
         var text = input.val();
         console.log(text);
         updateCommentAjax(id,text);
     });
+    buttonClose.on('click', function () {
+        $('.update-comment-container').remove();
+    });
     input.val(commentToUpdate.text());
     div.append(input);
     div.append(button);
+    div.append(buttonClose);
     parent.append(div);
 
 }
@@ -322,6 +327,19 @@ $(document).on('click', '.comm-option-update', function () {
     var id = this.getAttribute('data-id');
     showCommentUpdateBox(id);
 });
+
+$('#showChangeStatus').on('click', function () {
+   $('.dropdown-status-container').show();
+});
+
+$('#changeStatus').on('click', function () {
+    var statusNew = $('.dropdown-status option:selected').val();
+    console.log(statusNew);
+    changeStatusAjax(statusNew);
+    $('.dropdown-status-container').hide();
+});
+
+
 
 
 

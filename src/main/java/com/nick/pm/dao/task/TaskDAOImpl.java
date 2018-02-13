@@ -23,9 +23,6 @@ public class TaskDAOImpl implements TaskDAO{
 
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private MessageSource messageSource;
-
     @Resource(name = "sessionFactory")
     public SessionFactory sessionFactory;
 
@@ -40,7 +37,7 @@ public class TaskDAOImpl implements TaskDAO{
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Project.class);
         criteria.addOrder(Order.desc("taskDate"));
         List result = criteria.list();
-        LOGGER.info(messageSource.getMessage("log.get.tasks", new Object[] {result}, Locale.ENGLISH));
+        LOGGER.info("Get all tasks ");
         return result;
     }
 
@@ -54,13 +51,13 @@ public class TaskDAOImpl implements TaskDAO{
     @Override
     public void updateTask(Task task) {
         sessionFactory.getCurrentSession().update(task);
-        LOGGER.info(messageSource.getMessage("log.update.task", new Object[] {task}, Locale.ENGLISH));
+        LOGGER.info("Update task {} ", task);
     }
 
     @Override
     public void deleteTask(Task task) {
         sessionFactory.getCurrentSession().delete(task);
-        LOGGER.info(messageSource.getMessage("log.delete.task", new Object[] {task}, Locale.ENGLISH));
+        LOGGER.info("Delete task {} ", task);
     }
 
 

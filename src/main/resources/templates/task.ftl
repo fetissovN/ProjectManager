@@ -15,7 +15,19 @@
 <div class="row">
 
         <div class="large-3 column">
-            <h5 class="task-status"></h5>
+            <h5 class="status-label" style="display: inline">Status: </h5>
+            <h5 class="task-status" style="display: inline"></h5>
+            <button class="button" id="showChangeStatus">Change</button>
+            <div class="dropdown-status-container"  style="display: none">
+                <select class="dropdown-status" id="dropdownStatus" size="1">
+                    <option disabled>Choose Developer</option>
+                    <option value="WAITING">Waiting</option>
+                    <option value="IMPLEMENTATION">Implementation</option>
+                    <option value="VERIFYING">Verifying</option>
+                    <option value="RELEASING">Releasing</option>
+                </select>
+                <button class="button" id="changeStatus">Save</button>
+            </div>
             <div class="drop-container" style="display: none">
                 <select class="dropdown" id="dropdown" size="1">
                     <option disabled>Choose Developer</option>

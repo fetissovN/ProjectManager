@@ -20,3 +20,7 @@ p.pr-name{
     margin-right: 10px;
     float: right;
 }
+
+.update-comment-button-close {
+    margin-left: 10px;
+}

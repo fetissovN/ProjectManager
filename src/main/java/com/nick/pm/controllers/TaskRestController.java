@@ -3,16 +3,13 @@ package com.nick.pm.controllers;
 import com.nick.pm.DTO.CommentDTO;
 import com.nick.pm.DTO.TaskDTO;
 import com.nick.pm.DTO.UserDTO;
-import com.nick.pm.entity.Comment;
-import com.nick.pm.entity.Task;
 import com.nick.pm.service.comment.CommentService;
 import com.nick.pm.service.task.TaskService;
-import com.nick.pm.utils.DataJsonAddUserToProject;
 import com.nick.pm.utils.DataJsonAddUserToTask;
+import com.nick.pm.utils.DataJsonTaskStatus;
 import com.nick.pm.utils.DataJsonUpdateComment;
 import com.nick.pm.utils.login.SessionCheckLogin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -99,6 +96,16 @@ public class TaskRestController {
             return null;
         } else {
             commentService.updateComment(data.getText(),data.getCommentId());
+            return "updated";
+        }
+    }
+
+    @RequestMapping(value = "/updateTaskStatus", method = RequestMethod.POST)
+    public String updateTaskStatus(@RequestBody DataJsonTaskStatus data, HttpSession session) {
+        if (!checkLogin.checkLoggedIn(session)) {
+            return null;
+        } else {
+            taskService.changeStatus(data.getTaskId(),data.getStatus());
             return "updated";
         }
     }

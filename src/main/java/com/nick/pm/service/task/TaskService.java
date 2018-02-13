@@ -28,4 +28,6 @@ public interface TaskService {
     void addDeveloperToTask(long developerId, long taskId);
 
     List<CommentDTO> getAllComments(Long taskId);
+
+    void changeStatus(long taskId, String status);
 }

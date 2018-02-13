@@ -96,9 +96,8 @@ public class TaskServiceImpl implements TaskService {
     public List<UserDTO> getDevelopersOfTask(Long taskId) {
         Task task = taskDAO.getTaskById(taskId);
         Set<User> developers = task.getDevelopers();
-        List<UserDTO> userDTOs = developers.stream()
+        return developers.stream()
                 .map(u -> springConverterUserToUserDTO.convert(u)).collect(Collectors.toList());
-        return userDTOs;
     }
 
     @Override
@@ -122,6 +121,28 @@ public class TaskServiceImpl implements TaskService {
         List<Comment> allCommentsByTaskId = commentDAO.getAllCommentsByTaskId(taskId);
         return allCommentsByTaskId.stream()
                 .map(c -> springConverterCommentToCommentDTO.convert(c)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void changeStatus(long taskId, String status) {
+        Task task = taskDAO.getTaskById(taskId);
+        Status taskStatus = task.getStatus();
+
+        if (!taskStatus.toString().equals(status)){
+            if (status.equals(Status.IMPLEMENTATION.toString())){
+                task.setStatus(Status.IMPLEMENTATION);
+            }
+            if (status.equals(Status.RELEASING.toString())){
+                task.setStatus(Status.RELEASING);
+            }
+            if (status.equals(Status.VERIFYING.toString())){
+                task.setStatus(Status.VERIFYING);
+            }
+            if (status.equals(Status.WAITING.toString())){
+                task.setStatus(Status.WAITING);
+            }
+        }
+        taskDAO.updateTask(task);
     }
 }
 
