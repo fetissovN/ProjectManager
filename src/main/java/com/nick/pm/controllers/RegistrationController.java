@@ -51,7 +51,7 @@ public class RegistrationController extends ExceptionsController {
                 User user = springConverterUserRegDtoToUser.convert(userRegDTO);
                 long userCreatedId = userService.createUser(user);
                 Mailing mailing = new Mailing(HOST);
-                mailing.sendMailWithConfirmationLink(user.getEmail(),user.getEmail(),userCreatedId);
+                mailing.sendMailWithConfirmationLink(user.getEmail(),userCreatedId);
             }catch (Exception e){
                 e.printStackTrace();
             }

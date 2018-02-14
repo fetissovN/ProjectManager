@@ -16,14 +16,13 @@ public abstract class ExceptionsController {
     public String handleIOException(Exception ex, Model model) {
         model.addAttribute("ex", ex);
         ex.printStackTrace();
-        return "/error/exceptionpage";
+        return "/error/exceptionPage";
     }
 
     @ExceptionHandler(MailingException.class)
     @ResponseBody
     public String handleMailException(){
-        String error = "Problem occur, check your internet connection!";
-        return error;
+        return "Problem occur, check your internet connection!";
     }
 
 }

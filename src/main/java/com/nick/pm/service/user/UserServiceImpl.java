@@ -134,4 +134,19 @@ public class UserServiceImpl implements UserService {
                 .map(p -> springConverterProjectToProjectDTO.convert(p)).collect(Collectors.toList()));
         return projectsList;
     }
+
+    @Override
+    public void confirmUser(Long userId, String encoded) {
+        User user = userDao.getUserById(userId);
+        if (user.getActive() == 0){
+            org.springframework.security.crypto.password.PasswordEncoder encoder
+                    = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+            String email = user.getEmail();
+//            String encodedEmail = encoder.encode(email);
+            if (encoder.matches(email,encoded)){
+                user.setActive(1);
+                userDao.updateUser(user);
+            }
+        }
+    }
 }

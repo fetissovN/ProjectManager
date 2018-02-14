@@ -27,7 +27,7 @@
                 <@spring.showErrors "loginForm.password","error" />
                 <input type="submit" value="Login">
                 <#if loginErr??>
-                    <div class="danger">Invalid user or password</div>
+                    <div class="danger">${loginErr}</div>
                 </#if>
             </form>
             <div class="createAnAccount"> <a href="/reg/"> Create an Account </a> </div>

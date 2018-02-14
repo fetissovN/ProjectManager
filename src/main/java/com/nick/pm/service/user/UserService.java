@@ -32,4 +32,6 @@ public interface UserService {
     List<UserDTO> getAllDevelopersOfProject(Long id);
 
     List<ProjectDTO> getProjectsUserInvolved(Long userId);
+
+    void confirmUser(Long userId, String encoded);
 }

@@ -1,10 +1,12 @@
 package com.nick.pm.utils.mail;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+
+import com.nick.pm.entity.Project;
 
 import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.util.Properties;
 
 
@@ -24,18 +26,34 @@ public class Mailing{
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "888");
-        props.put("mail.smtp.connectiontimeout", "5000");
-        props.put("mail.smtp.timeout", "4000");
-        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.socketFactory.fallback", "false");
     }
 
-    private void send(String subject, String text, String toEmail) throws MailingException {
+//    private void send() throws IOException, MessagingException {
+//        final Properties properties = new Properties();
+//        properties.load(Mailing.class.getClassLoader().getResourceAsStream("mail.properties"));
+//
+//        Session mailSession = Session.getDefaultInstance(properties);
+//        MimeMessage mimeMessage = new MimeMessage(mailSession);
+//        mimeMessage.setFrom(new InternetAddress("fetissov.n@gmail.com"));
+//        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("fetissov.n@gmail.com"));
+//        mimeMessage.setSubject("hello");
+//        mimeMessage.setText("asd");
+//
+//        Transport tr = mailSession.getTransport();
+//        tr.connect(null,"trivium1341341");
+//        tr.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+//        tr.close();
+//
+//    }
+
+    private void sendOld(String subject, String text, String toEmail) throws MailingException {
         Session session = Session.getDefaultInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
-
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
@@ -44,22 +62,19 @@ public class Mailing{
             message.setText(text);
 
             Transport.send(message);
-
         } catch (MessagingException e) {
 
             throw new MailingException();
-//            throw new RuntimeException(e);
-
         }
     }
 
-    public void sendMailWithConfirmationLink(String toEmail, String email, long id) throws MailingException {
+    public void sendMailWithConfirmationLink(String toEmail,long id) throws MailingException {
         org.springframework.security.crypto.password.PasswordEncoder encoder
                 = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
-        String encodedEmail = encoder.encode(email);
+        String encodedEmail = encoder.encode(toEmail);
         String link = makeLinkFromEncodedEmail(encodedEmail,id);
         String text = "Please click to confirmation link " + link;
-        send("Task Builder",text,toEmail);
+        sendOld("Task Builder",text,toEmail);
     }
 
     private String makeLinkFromEncodedEmail(String encodedEmail, long id){

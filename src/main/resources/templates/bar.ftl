@@ -12,7 +12,7 @@
 <div class="bar">
     <h2 align="center">Task manager</h2>
     <p id="role" align="center"></p>
-    <a href="/log/logout" style="float: right">logout</a>
+    <a href="/log/logout" style="float: right; margin-right: 10px">logout</a>
 </div>
 <script
         src="https://code.jquery.com/jquery-2.1.0.min.js"
