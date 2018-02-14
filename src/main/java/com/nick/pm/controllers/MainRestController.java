@@ -5,8 +5,6 @@ import com.nick.pm.DTO.ProjectDTO;
 import com.nick.pm.DTO.TaskDTO;
 import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.entity.Project;
-import com.nick.pm.entity.Task;
-import com.nick.pm.entity.User;
 import com.nick.pm.service.project.ProjectService;
 import com.nick.pm.service.task.TaskService;
 import com.nick.pm.service.user.UserService;
@@ -18,6 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/**
+ * Controller handling requests from main page
+ * Consumes - json
+ * Produces - json,String
+ */
 @RestController
 @RequestMapping(value = "/api/main")
 public class MainRestController {

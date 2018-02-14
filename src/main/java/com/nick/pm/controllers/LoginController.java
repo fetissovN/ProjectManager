@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+/**
+ * Controller handling operations with login
+ */
 @Controller
 @RequestMapping(value = "/log")
 public class LoginController extends ExceptionsController {
@@ -64,7 +68,6 @@ public class LoginController extends ExceptionsController {
                 model.addAttribute("loginErr", Strings.NOT_ACTIVE);
                 return "login";
             }else {
-
                 org.springframework.security.crypto.password.PasswordEncoder encoder
                         = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
                 String loginPass = encoder.encode(loginDTO.getPassword());

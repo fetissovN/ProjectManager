@@ -6,7 +6,6 @@ import com.nick.pm.entity.User;
 import com.nick.pm.service.user.UserService;
 import com.nick.pm.utils.Strings;
 import com.nick.pm.utils.mail.Mailing;
-import com.nick.pm.utils.password.PassHash;
 import com.nick.pm.validation.RegFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +15,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+/**
+ * Controller handling user registration
+ */
 @Controller
 @RequestMapping(value = "/reg")
 public class RegistrationController extends ExceptionsController {

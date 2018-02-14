@@ -1,6 +1,10 @@
 package com.nick.pm.utils;
 
 
+/**
+ * Object for json
+ * For adding user to project
+ */
 public class DataJsonAddUserToProject {
 
     private long developerId;

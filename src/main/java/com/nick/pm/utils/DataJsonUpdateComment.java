@@ -1,6 +1,9 @@
 package com.nick.pm.utils;
 
-
+/**
+ * Object for json
+ * For updating comment
+ */
 public class DataJsonUpdateComment {
 
     private long commentId;

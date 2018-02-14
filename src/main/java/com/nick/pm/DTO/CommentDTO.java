@@ -1,9 +1,5 @@
 package com.nick.pm.DTO;
 
-import com.nick.pm.entity.Task;
-import com.nick.pm.entity.User;
-
-import javax.persistence.*;
 import java.util.Date;
 
 

@@ -1,15 +1,14 @@
 package com.nick.pm.utils.mail;
 
-import com.nick.pm.entity.Project;
-
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Properties;
 
-
+/**
+ * Class for handling mailing to new user
+ */
 public class Mailing{
 
     private String HOST;
@@ -30,25 +29,26 @@ public class Mailing{
         props.put("mail.smtp.socketFactory.fallback", "false");
     }
 
-//    private void send() throws IOException, MessagingException {
-//        final Properties properties = new Properties();
-//        properties.load(Mailing.class.getClassLoader().getResourceAsStream("mail.properties"));
-//
-//        Session mailSession = Session.getDefaultInstance(properties);
-//        MimeMessage mimeMessage = new MimeMessage(mailSession);
-//        mimeMessage.setFrom(new InternetAddress("fetissov.n@gmail.com"));
-//        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("fetissov.n@gmail.com"));
-//        mimeMessage.setSubject("hello");
-//        mimeMessage.setText("asd");
-//
-//        Transport tr = mailSession.getTransport();
-//        tr.connect(null,"trivium1341341");
-//        tr.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
-//        tr.close();
-//
-//    }
+    @Deprecated
+    private void send() throws IOException, MessagingException {
+        final Properties properties = new Properties();
+        properties.load(Mailing.class.getClassLoader().getResourceAsStream("mail.properties"));
 
-    private void sendOld(String subject, String text, String toEmail) throws MailingException {
+        Session mailSession = Session.getDefaultInstance(properties);
+        MimeMessage mimeMessage = new MimeMessage(mailSession);
+        mimeMessage.setFrom(new InternetAddress("fetissov.n@gmail.com"));
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("fetissov.n@gmail.com"));
+        mimeMessage.setSubject("hello");
+        mimeMessage.setText("asd");
+
+        Transport tr = mailSession.getTransport();
+        tr.connect(null,"trivium1341341");
+        tr.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+        tr.close();
+
+    }
+
+    private void send(String subject, String text, String toEmail) throws MailingException {
         Session session = Session.getDefaultInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -74,7 +74,7 @@ public class Mailing{
         String encodedEmail = encoder.encode(toEmail);
         String link = makeLinkFromEncodedEmail(encodedEmail,id);
         String text = "Please click to confirmation link " + link;
-        sendOld("Task Builder",text,toEmail);
+        send("Task Builder",text,toEmail);
     }
 
     private String makeLinkFromEncodedEmail(String encodedEmail, long id){

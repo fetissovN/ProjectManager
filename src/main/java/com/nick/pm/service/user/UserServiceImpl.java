@@ -135,6 +135,10 @@ public class UserServiceImpl implements UserService {
         return projectsList;
     }
 
+
+    /**
+    * Method comparing user email with previously encoded email.
+    * */
     @Override
     public void confirmUser(Long userId, String encoded) {
         User user = userDao.getUserById(userId);
@@ -142,7 +146,6 @@ public class UserServiceImpl implements UserService {
             org.springframework.security.crypto.password.PasswordEncoder encoder
                     = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
             String email = user.getEmail();
-//            String encodedEmail = encoder.encode(email);
             if (encoder.matches(email,encoded)){
                 user.setActive(1);
                 userDao.updateUser(user);

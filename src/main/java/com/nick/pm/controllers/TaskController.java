@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * Controller handling loading task page
+ */
 @Controller
 public class TaskController {
 

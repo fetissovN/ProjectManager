@@ -1,27 +1,20 @@
 package com.nick.pm.dao.user;
 
-import com.nick.pm.DTO.TaskDTO;
-import com.nick.pm.converter.SpringConverterTaskToTaskDTO;
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Role;
 import com.nick.pm.entity.Task;
 import com.nick.pm.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-//import org.hibernate.query.Query;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,14 +22,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserDaoImpl implements UserDAO {
 
-//    private final Logger LOGGER = Logger.getLogger(getClass());
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
-    private SpringConverterTaskToTaskDTO springConverterTaskToTaskDTO;
 
     @Resource(name = "sessionFactory")
     public SessionFactory sessionFactory;
@@ -92,7 +79,7 @@ public class UserDaoImpl implements UserDAO {
     @Override
     public void deleteUser(User user) {
         sessionFactory.getCurrentSession().delete(user);
-        LOGGER.info(messageSource.getMessage("log.deleteUser", new Object[] {user}, Locale.ENGLISH));
+        LOGGER.info("Delete user {}", user);
     }
 
     @Override

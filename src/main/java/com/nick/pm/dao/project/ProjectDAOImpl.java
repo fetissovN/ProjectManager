@@ -8,14 +8,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Locale;
 
 
 @Repository("projectDAOImpl")
@@ -23,9 +20,6 @@ import java.util.Locale;
 public class ProjectDAOImpl implements ProjectDAO {
 
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    private MessageSource messageSource;
 
     @Resource(name = "sessionFactory")
     public SessionFactory sessionFactory;
@@ -42,7 +36,7 @@ public class ProjectDAOImpl implements ProjectDAO {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Project.class);
         criteria.addOrder(Order.desc("postDate"));
         List result = criteria.list();
-        LOGGER.info(messageSource.getMessage("log.get.projects", new Object[] {result}, Locale.ENGLISH));
+        LOGGER.info("Get all projects ");
         return result;
     }
 
@@ -64,15 +58,15 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
-    public void updateProject(Project post) {
-        sessionFactory.getCurrentSession().update(post);
-        LOGGER.info(messageSource.getMessage("log.update.project", new Object[] {post}, Locale.ENGLISH));
+    public void updateProject(Project project) {
+        sessionFactory.getCurrentSession().update(project);
+        LOGGER.info("Update project {} ", project);
     }
 
     @Override
-    public void deleteProject(Project post) {
-        sessionFactory.getCurrentSession().delete(post);
-        LOGGER.info(messageSource.getMessage("log.delete.project", new Object[] {post}, Locale.ENGLISH));
+    public void deleteProject(Project project) {
+        sessionFactory.getCurrentSession().delete(project);
+        LOGGER.info("Delete project {} ", project);
     }
 
     @Override

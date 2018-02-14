@@ -1,6 +1,9 @@
 package com.nick.pm.utils;
 
-
+/**
+ * Object for json
+ * For adding user to task
+ */
 public class DataJsonAddUserToTask {
 
     private long developerId;

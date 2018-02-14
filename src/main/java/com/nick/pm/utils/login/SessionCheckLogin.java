@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * Class checking user role
+ */
 @Component
 public class SessionCheckLogin{
 

@@ -1,8 +1,6 @@
 package com.nick.pm.DTO;
 
 
-import com.nick.pm.entity.User;
-
 import java.util.Date;
 
 public class ProjectDTO {

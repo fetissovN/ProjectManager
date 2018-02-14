@@ -32,9 +32,6 @@ public class ProjectServiceImpl implements ProjectService {
     private UserService userService;
 
     @Autowired
-    private TaskService taskService;
-
-    @Autowired
     private UserDAO userDAO;
 
     @Autowired

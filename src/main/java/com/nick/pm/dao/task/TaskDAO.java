@@ -1,7 +1,5 @@
 package com.nick.pm.dao.task;
 
-
-import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Task;
 
 import java.util.List;
@@ -18,5 +16,4 @@ public interface TaskDAO {
 
     void deleteTask(Task task);
 
-//    List<Task> getTasksOfProject(Project project);
 }

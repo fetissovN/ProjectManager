@@ -1,6 +1,9 @@
 package com.nick.pm.utils;
 
-
+/**
+ * Object for json
+ * For holding status of task
+ */
 public class DataJsonTaskStatus {
 
     private long taskId;

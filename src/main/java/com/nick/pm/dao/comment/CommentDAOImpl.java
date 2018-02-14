@@ -20,9 +20,6 @@ public class CommentDAOImpl implements CommentDAO {
 
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-//    @Autowired
-//    private MessageSource messageSource;
-
     @Resource(name = "sessionFactory")
     public SessionFactory sessionFactory;
 

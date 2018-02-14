@@ -16,6 +16,11 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Controller handling requests from task page
+ * Consumes - json
+ * Produces - json,String
+ */
 @RestController
 @RequestMapping(value = "/api/task")
 public class TaskRestController {
