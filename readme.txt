@@ -1,5 +1,5 @@
 Author: Nick Fetissov(Backend + Frontend)
-Project: Task Manager
+Project: Project Manager
 
 Project build with Maven. Uses Java, Spring, Spring Boot, Hibernate, Freemarker.
 Frontend: JavaScript, JQuery
