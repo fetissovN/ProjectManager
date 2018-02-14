@@ -14,7 +14,7 @@ public class Mailing{
     private String HOST;
 
     private static final String username = "fetissov.n@gmail.com";
-    private static final String password = "trivium1341341";
+    private static final String password = "none";
     static Properties props;
 
     public Mailing(String host) {
@@ -42,7 +42,7 @@ public class Mailing{
         mimeMessage.setText("asd");
 
         Transport tr = mailSession.getTransport();
-        tr.connect(null,"trivium1341341");
+        tr.connect(null,"none");
         tr.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
         tr.close();
 
