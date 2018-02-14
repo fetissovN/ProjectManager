@@ -1,6 +1,7 @@
 package com.nick.pm.dao.user;
 
 
+import com.nick.pm.DTO.TaskDTO;
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Task;
 import com.nick.pm.entity.User;
@@ -28,4 +29,6 @@ public interface UserDAO {
     List<User> getListDevelopers();
 
     void updateUserTasks(User user, Task task);
+
+    List<Task> getTasksOfProjectForUser(Long userId, Project project);
 }

@@ -135,4 +135,13 @@ public class MainRestController {
             return userService.getProjectsUserInvolved(userId);
         }
     }
+
+    @RequestMapping(value = "/getTasksOfProjectForUser/{userId}/{projectId}", method = RequestMethod.GET)
+    public List<TaskDTO> getTasksOfProjectForUser(@PathVariable Long userId, @PathVariable Long projectId, HttpSession session){
+        if (!checkLogin.checkLoggedIn(session)){
+            return null;
+        }else {
+            return projectService.getTasksOfProjectForUser(projectId,userId);
+        }
+    }
 }

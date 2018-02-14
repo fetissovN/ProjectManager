@@ -16,6 +16,8 @@
         <div class="large-3 column">
             <button class="button" id="create-pr" style="display: none">Create new project</button>
             <button class="button" id="create-tk" style="display: none">Create new task</button>
+            <button class="button" id="filter-tk" style="display: none">Filter: only for me</button>
+            <button class="button" id="filter-tk-all" style="display: none">Filter: all</button>
             <div class="drop-container" style="display: none">
                 <select class="dropdown" id="dropdown" size="1">
                     <option disabled>Choose Developer</option>

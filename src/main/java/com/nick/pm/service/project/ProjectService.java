@@ -18,6 +18,8 @@ public interface ProjectService {
 
     List<Project> getAllProjectsDeveloperTakePart(UserDTO userDTO);
 
+    List<TaskDTO> getTasksOfProjectForUser(Long projectId, Long userId);
+
     Project getProjectById(Long id);
 
     void deleteProjectById(Long id);

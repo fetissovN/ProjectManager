@@ -5,6 +5,7 @@ import com.nick.pm.DTO.UserDTO;
 import com.nick.pm.converter.SpringConverterTaskToTaskDTO;
 import com.nick.pm.converter.SpringConverterUserDTOToUser;
 import com.nick.pm.dao.project.ProjectDAO;
+import com.nick.pm.dao.user.UserDAO;
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Role;
 import com.nick.pm.entity.Task;
@@ -32,6 +33,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserDAO userDAO;
 
     @Autowired
     private SpringConverterTaskToTaskDTO springConverterTaskToTaskDTO;
@@ -67,6 +71,16 @@ public class ProjectServiceImpl implements ProjectService {
         List<TaskDTO> taskDTOs = new ArrayList<>();
         Project project = getProjectById(projectId);
         List<Task> taskList = projectDAO.getTasksOfProject(project);
+        taskDTOs.addAll(taskList.stream().map(t -> springConverterTaskToTaskDTO.convert(t)).collect(Collectors.toList()));
+        return taskDTOs;
+    }
+
+    @Override
+    public List<TaskDTO> getTasksOfProjectForUser(Long projectId, Long userId) {
+        List<TaskDTO> taskDTOs = new ArrayList<>();
+        Project project = getProjectById(projectId);
+
+        List<Task> taskList = userDAO.getTasksOfProjectForUser(userId, project);
         taskDTOs.addAll(taskList.stream().map(t -> springConverterTaskToTaskDTO.convert(t)).collect(Collectors.toList()));
         return taskDTOs;
     }

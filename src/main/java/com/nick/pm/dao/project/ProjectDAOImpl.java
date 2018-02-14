@@ -84,4 +84,5 @@ public class ProjectDAOImpl implements ProjectDAO {
         LOGGER.info("Get tasks of project {} ", project);
         return result;
     }
+
 }

@@ -4,6 +4,7 @@ var role;
 var projectIdClicked;
 
 var projects = [];
+var tasks = [];
 
 
 function getUserInfoAjax() {
@@ -84,10 +85,13 @@ function getProjectTasks(id) {
                 showDropdownDevelopers();
             }
             if(role == "DEVELOPER"){
+                showFilterButtons();
                 //todo create filter task button
             }
             showContainerDevelopers();
             createTaskList(data);
+            tasks = data;
+            console.log(tasks);
         },
         error: function () {
             alert('failToLoad');
@@ -173,7 +177,20 @@ function getUserProjectsInvolvedAjax() {
             alert('fail');
         }
     });
+}
 
+function loadTasksForUserAjax() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/main/getTasksOfProjectForUser/'+userId+'/'+projectIdClicked,
+        success: function(data){
+            console.log(data);
+            createTaskList(data);
+        },
+        error: function () {
+            alert('fail');
+        }
+    });
 }
 
 function fillDropBox(data) {
@@ -211,7 +228,7 @@ function createTaskList(taskList) {
         name.addClass('pr-name');
         name.text("Task: "+taskList[i].name);
         task.append(name);
-        // task.append(a);
+        task.append(a);
         tr.append(task);
         tr.append(a);
         table.append(tr)
@@ -264,6 +281,16 @@ function loadUserProjects() {
     }else {
         console.log('else');
     }
+}
+
+function showFilterButtons() {
+    $('#filter-tk').show();
+    $('#filter-tk-all').show();
+}
+
+function closeFilterButtons() {
+    $('#filter-tk').hide();
+    $('#filter-tk-all').hide();
 }
 
 function showContainerDevelopers() {
@@ -336,6 +363,9 @@ $('#showProjects').on('click', function () {
     if(role == "MANAGER"){
         showAddProjectButton();
     }
+    if(role == "DEVELOPER"){
+        closeFilterButtons();
+    }
 });
 
 $('#form-cr-pr-submit').on('click', function () {
@@ -348,6 +378,13 @@ $('#form-cr-tk-submit').on('click', function () {
     $('.form-container-task').hide();
 });
 
+$('#filter-tk').on('click', function () {
+    console.log(tasks);
+    loadTasksForUserAjax();
+});
+$('#filter-tk-all').on('click', function () {
+    createTaskList(tasks);
+});
 
 getUserInfoAjax();
 if(role == 'MANAGER'){

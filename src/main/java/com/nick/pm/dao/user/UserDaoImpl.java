@@ -1,5 +1,7 @@
 package com.nick.pm.dao.user;
 
+import com.nick.pm.DTO.TaskDTO;
+import com.nick.pm.converter.SpringConverterTaskToTaskDTO;
 import com.nick.pm.entity.Project;
 import com.nick.pm.entity.Role;
 import com.nick.pm.entity.Task;
@@ -17,8 +19,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository("userDaoImpl")
 @Transactional
@@ -29,6 +34,9 @@ public class UserDaoImpl implements UserDAO {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private SpringConverterTaskToTaskDTO springConverterTaskToTaskDTO;
 
     @Resource(name = "sessionFactory")
     public SessionFactory sessionFactory;
@@ -111,5 +119,17 @@ public class UserDaoImpl implements UserDAO {
         sessionFactory.getCurrentSession().update(user);
         sessionFactory.getCurrentSession().update(task);
         LOGGER.info("User {} updated", user);
+    }
+
+    @Override
+    public List<Task> getTasksOfProjectForUser(Long userId, Project project) {
+
+        User user = sessionFactory.getCurrentSession().get(User.class,userId);
+        Set<Task> tasks = user.getTasks();
+        List<Task> taskList = tasks.stream()
+                .filter(t -> t.getProjectId() == project)
+                .collect(Collectors.toList());
+        LOGGER.info("Get tasks of project {} ", project);
+        return taskList;
     }
 }

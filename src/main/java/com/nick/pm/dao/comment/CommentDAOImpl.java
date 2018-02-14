@@ -59,7 +59,7 @@ public class CommentDAOImpl implements CommentDAO {
         Task task = sessionFactory.getCurrentSession().get(Task.class, taskId);
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Comment.class)
                 .add(Restrictions.eq("taskId", task));
-        criteria.addOrder(Order.desc("comment_date"));
+        criteria.addOrder(Order.asc("comment_date"));
 
         List<Comment> comments = criteria.list();
         LOGGER.info("Get all comments by task id {}", taskId);

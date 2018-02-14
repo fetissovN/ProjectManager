@@ -235,7 +235,7 @@ function createSingleComment(data) {
     tr.append(p);
     tr.append(pUpd);
     tr.append(pDel);
-    table.append(tr);
+    table.prepend(tr);
 }
 
 function createListComments(commentsList) {
